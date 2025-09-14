@@ -234,31 +234,876 @@
   <script>
     const BANK = {
       'ltc-aip': [
-          {
-              id: 'c1',
-              q: "A transmission from one station to another station in circumstances where two-way communication cannot be established but where it is believed that the called station is able to receive the transmission:",
-              choices: [
-                  "Blind transmission",
-                  "One-way transmission",
-                  "Two-way transmission",
-                  "Radio check"
-              ],
-              answer: 0,
-              explanation: "Blind transmission: gửi khi không thể xác nhận hai chiều nhưng có thể tin tưởng bên kia nghe được."
-          },
-          {
-              id: 'c2',
-              q: "Who have the right to open an airport or aerodrome based on the airport or aerodrome system plans?",
-              choices: [
-                  "The Prime Minister",
-                  "The Minister of Transport",
-                  "The Civil Aviation Authority",
-                  "The Airport Owner"
-              ],
-              answer: 3,
-              explanation: "Quyền mở sân bay phụ thuộc vào chủ quản hoặc chủ đầu tư theo quy định kế hoạch."
-          }
-      ],
+  {
+    "id": "c1",
+    "q": "Air traffic means________.",
+    "choices": [
+      "all aircraft in the air",
+      "all aircraft in flight or operating on the manoeuvring area of an aerodrome",
+      "all aircraft and helicopters flying within a FIR",
+      "all aircraft on apron and aircraft operating in a hangar"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c2",
+    "q": "Aerodrome traffic means ______________.",
+    "choices": [
+      "All traffic on the manoeuvring area of an aerodrome",
+      "All aircraft on apron and aircraft operating in a hangar",
+      "All aircraft flying in the vicinity of an aerodrome.",
+      "(1) and (2)"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c3",
+    "q": "Transition level is the lowest _____ available for use above the transition altitude.",
+    "choices": [
+      "flight level",
+      "altitudes",
+      "vertical position",
+      "elevation"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c4",
+    "q": "Aerodrome elevation is the elevation of the highest point of the ______ area.",
+    "choices": [
+      "manoeuvring",
+      "movement",
+      "landing",
+      "control"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c5",
+    "q": "Expected approach time is________.",
+    "choices": [
+      "the time at which ATC expects that an arriving aircraft, following a delay will leave the holding fix to complete its approach for a landing",
+      "the time at which the pilot of an arriving aircraft expects to leave holding fix to complete its approach for a landing",
+      "the time at which it is estimated that an arriving aircraft will commence its approach for a landing",
+      "All of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c6",
+    "q": "Flight information region (FIR) is an airspace of defined dimensions within which flight information service and _____ service are provided.",
+    "choices": [
+      "search and rescue",
+      "alerting",
+      "air traffic",
+      "aeronautical information"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c7",
+    "q": "Approach sequence means________.",
+    "choices": [
+      "the order in which 2 or more aircraft land at the aerodrome",
+      "the order in which 2 or more aircraft are cleared to land at the aerodrome",
+      "the order in which 2 or more aircraft are cleared to approach to land at the aerodrome",
+      "the order in which 2 or more aircraft are cleared to approach the navigation aid serving the aerodrome"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c8",
+    "q": "A flight plan for a flight to be provided with air traffic control service or air traffic advisory service shall be submitted at least ________ before departure.",
+    "choices": [
+      "60 minutes",
+      "30 minutes",
+      "15 minutes",
+      "10 minutes"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c9",
+    "q": "A pressure type altimeter calibrated in accordance with the Standard Atmosphere, when a pressure type altimeter is set to a QNH altimeter setting, will indicate________.",
+    "choices": [
+      "flight level",
+      "altitude",
+      "height",
+      "pressure on runway surface"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c10",
+    "q": "The air traffic services comprise is a generic term meaning variously, ________.",
+    "choices": [
+      "area control service, approach control service, aerodrome control service",
+      "air traffic control service, search and rescue service",
+      "air traffic control service, aeronautical telecommunication service, and aeronautical meteorological service",
+      "air traffic control service, flight information service, alerting service, air traffic advisory service"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c11",
+    "q": "On the manoeuvring area, which one has first priority?",
+    "choices": [
+      "landing aircraft",
+      "taxiing aircraft",
+      "taking off aircraft",
+      "emergency vehicles proceeding to the assistance of an aircraft in distress"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c12",
+    "q": "When two or more aircraft are at the same cruising level, the ________aircraft shall normally have priority.",
+    "choices": [
+      "preceding",
+      "succeeding",
+      "fastest",
+      "biggest"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c13",
+    "q": "________ shall be given priority over other listed below. The approach sequence shall be established in a manner which will facilitate arrival of the maximum number of aircraft with the least average delay. First priority shall be given to:",
+    "choices": [
+      "VIP aircraft",
+      "Aircraft engaged in search and rescue operations",
+      "Hospital aircraft",
+      "Aircraft which anticipates being compelled to land"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c14",
+    "q": "Aerodrome control tower shall instruct an aircraft which is known or believed to be the subject of unlawful interference or aircarft bomb threat to taxi to _____.",
+    "choices": [
+      "a holding point",
+      "terminal apron",
+      "a stand for VIP aircraft",
+      "a designated or an isolated parking area"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c15",
+    "q": "The pilot encountered a state of radio communication failure shall set his transponder to code_____.",
+    "choices": [
+      "A/3 7400",
+      "A/3 7500",
+      "A/3 7600",
+      "A/3 7700"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c16",
+    "q": "A pressure type altimeter calibrated in accordance with the Standard Atmosphere, When set to a QFE altimeter setting, will indicate______ above the QFE reference datum.",
+    "choices": [
+      "flight level",
+      "attitude",
+      "height",
+      "pressure on runway surface"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c17",
+    "q": "Decision altitude (DA) is referenced to______.",
+    "choices": [
+      "aerodrome elevation",
+      "mean sea level",
+      "aerodrome reference point",
+      "relevant runway threshold"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c18",
+    "q": "Transition altitude is the altitude at or below which the _______ position of an aircraft is controlled by reference to altitudes.",
+    "choices": [
+      "lateral",
+      "vertical",
+      "horizotal",
+      "dimention"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c19",
+    "q": "Visual approach is an approach by an ______when either part or all of an instrument approach procedure is not completed and the approach is executed in visual reference to terrain.",
+    "choices": [
+      "IFR flight",
+      "VFR flight",
+      "SVFR flight",
+      "IFR/VFR flight"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c20",
+    "q": "Airway is a control area or portion thereof established in the form of _____.",
+    "choices": [
+      "a corridor",
+      "a track",
+      "a heading",
+      "a course"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c21",
+    "q": "_____ is an aerodrome to which an aircraft may proceed when it becomes either impossible or inadvisable to proceed to or to land at the aerodrome of intended landing where the necessary services and facilities are available, where aircraft performance requirements can be met and which is operational at the expected time of use.",
+    "choices": [
+      "Alternate aerodrome",
+      "Departing aerodrome",
+      "Arriving aerodrome",
+      "Holding aerodrome"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c22",
+    "q": "_____is a unit established to provide air traffic control service to controlled flights arriving at, or departing from, one or more aerodromes.",
+    "choices": [
+      "Area control unit",
+      "Tower control unit",
+      "Ground control unit",
+      "Approach control unit"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c23",
+    "q": "Air traffic services reporting office is a unit established for the purpose of receiving reports concerning______services and flight plans submitted before departure.",
+    "choices": [
+      "air traffic",
+      "air traffic control",
+      "flight information",
+      "air traffic advisory"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c24",
+    "q": "Precision approach and landing operations CAT II operation with a decision height_____ and RVR not less than 350m.",
+    "choices": [
+      "not lower than 60m",
+      "not lower than 50m",
+      "lower than 60m but not lower than 30m",
+      "lower than 30m but not lower than 15m"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c25",
+    "q": "The grave and imminent danger threatens, and immediate assistance is requested, A radiotelephony distress signal consisting of the spoken word \"_______\" .",
+    "choices": [
+      "SOS",
+      "MAYDAY",
+      "PAN PAN",
+      "EMERGENCY"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c26",
+    "q": "Air traffic clearances are issued by_________.",
+    "choices": [
+      "area Control Center",
+      "approach Control Unit",
+      "aerodrome Control Tower",
+      "All of the above"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c27",
+    "q": "______means any flight which is subject to an air traffic control clearance.",
+    "choices": [
+      "Controlled flight",
+      "Uncontrolled glight",
+      "IFR flight",
+      "VFR flight"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c28",
+    "q": "The estimated time at which the aircraft will commence movement associated with departure. Estimated time of departure Estimated take-off time Estimated taxi out time Estimated off-block time",
+    "choices": [
+      "Estimated time of departure",
+      "Estimated take-off time",
+      "Estimated taxi out time",
+      "Estimated off-block time"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c29",
+    "q": "The ______________ at or below which the vertical position of an aircraft is controlled by reference to altitudes.",
+    "choices": [
+      "flight level",
+      "altitude",
+      "vertical position",
+      "elevation"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c30",
+    "q": "_____is the altitude at or below which the vertical position of an aircraft is controlled by reference to altitudes.",
+    "choices": [
+      "Transition level",
+      "Transition altitude",
+      "Level",
+      "Altitude"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c31",
+    "q": "IFR flights shall be carried out in compliance with______.",
+    "choices": [
+      "general rules of the air",
+      "instrument flight rules",
+      "visual flight rules and general rules",
+      "instrument flight rules and general rules"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c32",
+    "q": "In Viet Nam, the establishment of the air routes is decided by ______.",
+    "choices": [
+      "Ministry of Transport of Viet Nam",
+      "Ministry of Defence",
+      "Civil Aviation Authority of Viet Nam",
+      "Prime Minister"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c33",
+    "q": "Put the following AFTN message indicators in: FF, GG, SS, KK, DD in correct order of priority: Put the appropriate two-letter Priority Indicator in the order of priority for the transmission of messages in the AFTN:",
+    "choices": [
+      "FF, DD, SS, GG, KK",
+      "DD, FF, GG, KK, SS",
+      "DD, SS, KK, GG, FF",
+      "SS, DD, FF, GG, KK"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c34",
+    "q": "Decision height (DH) referenced to______.",
+    "choices": [
+      "aerodrome elevation",
+      "mean sea level",
+      "aerodrome reference point",
+      "the threshold elevation"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c35",
+    "q": "The RVSM airspace is prescribed within controlled airspace between FL 290 and FL 410 (inclusive) in______.",
+    "choices": [
+      "Ha Noi FIR",
+      "Da Nang FIR",
+      "Ho Chi Minh FIR",
+      "(1) and (3)"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c36",
+    "q": "Air Traffic Management consists of the following component (ATM) is the dynamic, integrated management of air traffic and airspace including _______.",
+    "choices": [
+      "Air Traffic Flow Management",
+      "Airspace Management",
+      "Air Traffic Services",
+      "All of the above"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c37",
+    "q": "The width of Domestic air route W2 in Viet Nam airspace is _____.",
+    "choices": [
+      "15km",
+      "50km",
+      "20km",
+      "10km"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c38",
+    "q": "The width of International air route A1 in Viet Nam airspace is _____.",
+    "choices": [
+      "60km",
+      "30km",
+      "70km",
+      "4km"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c39",
+    "q": "The width of International route M771 in Viet Nam FIRs is _____.",
+    "choices": [
+      "20km",
+      "30km",
+      "92km",
+      "40km"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c40",
+    "q": "The International routes to be used for _____.",
+    "choices": [
+      "International flights",
+      "Domestic flights",
+      "International and Domestic flights",
+      "Military flights"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c41",
+    "q": "Holding procedure is a predetermined manoeuvre which keeps an aircraft within a specified _____while awaiting further clearance.",
+    "choices": [
+      "area",
+      "airspace",
+      "zone",
+      "region"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c42",
+    "q": "The emergency channel used for providing a common VHF channel for communication between civil aircraft and intercepting aircraft or intercept control units and between civil or intercepting aircraft and air traffic services units in the event of interception of the civil aircraft.",
+    "choices": [
+      "125.1 Mhz",
+      "121.5 Mhz",
+      "121.55 Mhz",
+      "121.0 Mhz"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c43",
+    "q": "The vertical separation minimum (VSM) between aircraft below FL290 shall be a nominal ______ below FL290.",
+    "choices": [
+      "300m (1000FT)",
+      "600m (2000FT)",
+      "900m (3000FT)",
+      "None of the above"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c44",
+    "q": "The vertical separation minimum (VSM) between aircraft at or above FL290 shall be a nominal _____ at or above FL290.",
+    "choices": [
+      "300m (1000FT)",
+      "600m (2000FT)",
+      "900m (3000FT)",
+      "None of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c45",
+    "q": "The Domestic routes to be used for ______.",
+    "choices": [
+      "International flights",
+      "Domestic flights",
+      "International and Domestic flights",
+      "Military flights"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c46",
+    "q": "Which ATS units take responsibility for operations on the runway and traffic on the manoeuvring area?",
+    "choices": [
+      "aerodrome control tower",
+      "Area control centre",
+      "Approach unit",
+      "All of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c47",
+    "q": "Who is normally responsible for operations on the runway and aircraft flying within the area of responsibility of the aerodrome control tower:",
+    "choices": [
+      "Aerodrome controller",
+      "Ground controller",
+      "Clearance delivery position",
+      "All of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c48",
+    "q": "Which ATS units provide clearance delivery position, normally responsible for delivery of start-up and ATC clearances to departing IFR flights?",
+    "choices": [
+      "Aerodrome control tower",
+      "Area control centre",
+      "Approach unit",
+      "All of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c49",
+    "q": "Who is normally responsible for traffic on the manoeuvring area with the exception of runways?",
+    "choices": [
+      "Aerodrome controller",
+      "Ground controller",
+      "Clearance delivery position",
+      "All of the above"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c50",
+    "q": "RNAV is______which permits aircraft operation on any desired flight path within the coverage of station-referenced NAVAIDs or within the limits of the capability of self-contained aids, or a combination of these.",
+    "choices": [
+      "a method of navigation",
+      "a procedure of navigation",
+      "a system of navigation",
+      "a rule of air traffic control"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c51",
+    "q": "RNP system is _____which supports on-board performance monitoring and alerting.",
+    "choices": [
+      "an area navigation system",
+      "an area control method",
+      "an area navigation tool",
+      "an area control tool"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c52",
+    "q": "ADS-B stands for ______.",
+    "choices": [
+      "Automation Dependent Surveillance – Broadcast",
+      "Automated Dependence Surveillance – Broadcasting",
+      "Automatic Dependent Survey – Broadcast",
+      "Automatic Dependent Surveillance – Broadcast"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c53",
+    "q": "The frequencies used for emergency locator transmitters (ELTs) are_______________",
+    "choices": [
+      "121.5 MHz",
+      "125.1 MHz",
+      "108 MHz",
+      "All of the above"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c54",
+    "q": "VHF band specified for air ground communications is______.",
+    "choices": [
+      "From 108 MHz to 117.975 MHz",
+      "From 108 MHz to 137 MHz",
+      "From 145 MHz to 190 MHz",
+      "All frequencies higher than 190 MHz"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c55",
+    "q": "_____ is a telecommunication service between specified fixed points provided primarily for the safety of air navigation and for the regular, efficient and economical operation of air services.",
+    "choices": [
+      "Aeronautical mobile service",
+      "Air - ground communication",
+      "Aeronautical fixed service",
+      "None of the above"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c56",
+    "q": "GBAS stands for _____.",
+    "choices": [
+      "Ground base Augmentation Systems",
+      "Ground Based Augmentation System",
+      "Ground bases Augmentation System",
+      "Ground basement Augmentation System"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c57",
+    "q": "The primary means of current air-ground communication is_____.",
+    "choices": [
+      "HF radio",
+      "Voice",
+      "VHF radio",
+      "(1) and (3)"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c58",
+    "q": "The primary means of current ground-ground communication is _____.",
+    "choices": [
+      "AFTN",
+      "Voice and Data",
+      "AFTN and Data",
+      "All of the above"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c59",
+    "q": "_____ is a means by which aircraft, aerodrome vehicles and other objects can automatically transmit and/or receive data such as identification, position and additional data, as appropriate, in a broadcast mode via a data link.",
+    "choices": [
+      "Automatic dependent surveillance - broadcast (ADS-B)",
+      "Automatic dependent surveillance - contract (ADS-C).",
+      "Automatic terminal information service (ATIS).",
+      "(1) and (2) are the correct."
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c60",
+    "q": "CPDLC stands for _____",
+    "choices": [
+      "Controller-Pilot Data Link Communications",
+      "Controllers Pilots Data Link Communication",
+      "Control Pilot Data Link Communicating",
+      "Controller Pilot Data Link Communicate"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c61",
+    "q": "______ is a method of navigation which permits aircraft operation on any desired flight path within the coverage of ground- or space-based navigation aids or within the limits of the capability of self-contained aids, or a combination of these.",
+    "choices": [
+      "PBN",
+      "RNP",
+      "RNAV",
+      "Radar"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c62",
+    "q": "PBN stands for _____ .",
+    "choices": [
+      "Performance Based Navigation",
+      "Perform Basement Navigation",
+      "Performing Basics Navigation",
+      "Perform Basic Navigation"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c63",
+    "q": "In Viet Nam, the following types of radio aids to air navigation are available:",
+    "choices": [
+      "NDB, VOR, DME, ILS, LORAN",
+      "NDB, VOR, DME, ILS, OMEGA",
+      "NDB, VOR, DME, ILS",
+      "NDB, VOR, DME, ILS, LORAN, OMEGA"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c64",
+    "q": "ADS-B is used for identify aircraft, it is determined as_______.",
+    "choices": [
+      "navigation",
+      "surveillance",
+      "communication",
+      "identification"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c65",
+    "q": "In Doc 7910, Location Indicators to which messages cannot be addressed via the AFS are identified by _______.",
+    "choices": [
+      "a colon sign (:)",
+      "a semi-colon sign (;)",
+      "an asterisk sign (*)",
+      "a hex sign (#)"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c66",
+    "q": "An Doc used for Special Distribution is given the priority prefix ____.",
+    "choices": [
+      "DD",
+      "FF",
+      "SS",
+      "GG"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c67",
+    "q": "Which one shall not be used in an AFS message?",
+    "choices": [
+      "A colon",
+      "A comma",
+      "An oblique",
+      "Roman letters"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c68",
+    "q": "Normally, AIS messages are assigned a priority indicator in accordance with Annex 10 Volume II, that is ____.",
+    "choices": [
+      "FF",
+      "KK",
+      "GG",
+      "DD"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c69",
+    "q": "Modes of communication required for submission of raw data to the AIS should include______.",
+    "choices": [
+      "messenger service",
+      "postal service",
+      "telefax",
+      "messenger service, postal service, aeronautical fixed service, telefax, telephonic, computer network and internet"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c70",
+    "q": "Which facility among the following provides aircraft with its azimuth and distance?",
+    "choices": [
+      "NDB",
+      "VOR/DME",
+      "ILS",
+      "DVOR"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c71",
+    "q": "_____ is the direction in which the longitudinal axis of an aircraft is pointed, usually expressed in degrees from North (true, magnetic, compass or grid).",
+    "choices": [
+      "Track",
+      "Bearing",
+      "Heading",
+      "Desired track"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c72",
+    "q": "The standard non-visual aids to precision approach and landing shall be _____.",
+    "choices": [
+      "ILS",
+      "NDB",
+      "VOR",
+      "DME"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c73",
+    "q": "The ILS glide path angle should be _____.",
+    "choices": [
+      "2 degrees",
+      "3 degrees",
+      "4 degrees",
+      "5 degrees"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "c74",
+    "q": "The wing bar of a PAPI shall be constructed and arranged in such a manner that, a pilot marking an approach and being on or close to the approach slope will see ______.",
+    "choices": [
+      "2 units nearest to the RWY as white and 2 units farthest from the RWY as red",
+      "all 4 units as white",
+      "1 unit nearest to the RWY as red and 3 units farthest from the RWY as white",
+      "2 units nearest to the RWY as red and 2 units farthest from the RWY as white"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c75",
+    "q": "ATIS broadcasts shall be provided at aerodrome where there is required ______.",
+    "choices": [
+      "to reduce the communication load on the ATS VHF air ground communication channels",
+      "to assist the air traffic controllers to know information about weather at aerodrome",
+      "to notice the information about the condition of runway in use",
+      "to announce information about departing and arriving aircraft to passengers"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "c76",
+    "q": "RDP stands for ______.",
+    "choices": [
+      "Radars Data Processing",
+      "Radar Datum Processions",
+      "Radar Data Processing",
+      "Radar Data Process"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "c77",
+    "q": "ADS-C stands for _____.",
+    "choices": [
+      "Automation Dependent Surveillance – Contrastings",
+      "Automated Dependence Surveillance – Contrast",
+      "Automatic Dependent Survey – Contrast",
+      "Automatic Dependent Surveillance – Contract"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c78",
+    "q": "AFTN is used for______.",
+    "choices": [
+      "exchange of messages",
+      "exchange of data",
+      "exchange of digital data",
+      "(1) and (3)"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "c79",
+    "q": "The non-visual aids system to precision approach and landing shall be _____.",
+    "choices": [
+      "the instrument landing system (ILS)",
+      "the microwave landing system (MLS)",
+      "the global navigation satellite system (GNSS)",
+      "All of the above"
+    ],
+    "answer": 3
+  }
+],
 	  'ltc-nhanvien': [
     {
       "id": "ltc-nv-ats1",
