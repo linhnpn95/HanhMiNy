@@ -1,0 +1,3311 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Web Test - Ôn tập & Kiểm tra</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --accent:#2b7cff;
+      --muted:#777;
+      --success:#2ea44f;
+      --danger:#d73a49;
+      --shadow: 0 6px 18px rgba(20,30,60,0.08);
+      --radius:12px;
+      --gap:14px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#e9f1ff 0%, var(--bg) 50%);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:18px;
+    }
+
+    .app{
+      max-width:820px;
+      margin: 8px auto;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    /* Header (image banner) */
+    .banner{
+      height:220px;
+      background:
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect fill="%23aee1ff" width="1200" height="600"/></svg>')
+        center/cover no-repeat;
+      background-color:#bfe6ff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .banner .title{
+      position:absolute;
+      top:14px;
+      left:18px;
+      font-size:16px;
+      color:#fff;
+      font-weight:600;
+      text-shadow:0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      background:linear-gradient(180deg,#fff,#fbfbff);
+      border-bottom:1px solid #eee;
+    }
+    .tab{
+      flex:1;
+      text-align:center;
+      padding:14px 10px;
+      cursor:pointer;
+      font-weight:600;
+      color:var(--muted);
+    }
+    .tab.active{
+      color:var(--accent);
+      border-bottom:3px solid var(--accent);
+    }
+
+    .content{
+      padding:18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    select, button{
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e0e6ef;
+      background:white;
+      font-size:14px;
+    }
+    select{min-width:220px}
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 6px 14px rgba(43,124,255,0.2);
+    }
+    .btn.ghost{
+      background:#fff;
+      color:var(--accent);
+      border:1px solid #d7e6ff;
+      box-shadow:none;
+    }
+
+    .questions{
+      background:linear-gradient(180deg,#fff,#fcfcff);
+      padding:14px;
+      border-radius:10px;
+      border:1px solid #f0f3fa;
+    }
+    .q{
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:12px;
+      background:linear-gradient(180deg,#fff,#fafbff);
+      border:1px solid #f1f4fb;
+    }
+    .q h4{
+      margin:0 0 8px 0;
+      font-size:15px;
+    }
+    .options{display:flex;flex-direction:column;gap:8px}
+    label.option{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:8px;
+      border-radius:8px;
+      cursor:pointer;
+      border:1px solid transparent;
+      user-select:none;
+    }
+    label.option:hover{background:#fbfdff}
+    input[type="radio"]{width:18px;height:18px}
+
+    /* show correct/wrong */
+    .option.correct{background:rgba(46,164,79,0.08);border-color:rgba(46,164,79,0.15)}
+    .option.wrong{background:rgba(215,58,73,0.06);border-color:rgba(215,58,73,0.12)}
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:6px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .result{
+      padding:12px;
+      border-radius:10px;
+      border:1px dashed #e5edf9;
+      background:#f8fbff;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .score{
+      font-size:18px;
+      font-weight:700;
+      color:var(--accent);
+    }
+
+    /* Responsive mobile tweaks */
+    @media (max-width:520px){
+      .banner{height:160px}
+      .content{padding:12px}
+      select{width:100%}
+      .controls{flex-direction:column;align-items:stretch}
+    }
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Web Test">
+    <div class="banner" aria-hidden="true">
+      <div class="title">Hanh Miny</div>
+      <svg width="380" height="160" viewBox="0 0 380 160" style="position:absolute;right:14px;bottom:8px">
+        <g fill="none" stroke="rgba(0,0,0,0.06)">
+          <rect x="20" y="30" width="120" height="60" rx="6" fill="#ff8a4b"/>
+          <rect x="150" y="60" width="140" height="40" rx="6" fill="#2b9cff"/>
+          <rect x="40" y="6" width="160" height="16" rx="6" fill="#ffd4a6"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <div class="tab active" data-tab="practice" role="tab" aria-selected="true">Ôn tập</div>
+      <div class="tab" data-tab="test" role="tab" aria-selected="false">Kiểm tra</div>
+    </div>
+
+    <main class="content">
+      <div class="controls" aria-hidden="false">
+        <select id="domainSelect" aria-label="Chọn lĩnh vực chuyên môn">
+          <option value="">Chọn lĩnh vực chuyên môn</option>
+          <option value="ltc-aip">LTC-AIP, NOTAM, AD AIS-QT</option>
+          <option value="ltc-nhanvien">LTC-NHAN VIEN ARO</option>
+          <option value="ltcs-ad">LTCS-AD AIS-QT-KIP VIEN</option>
+          <option value="ltcs-nhanvien">LTCS-NHAN VIEN ARO</option>
+        </select>
+        <button class="btn ghost" id="loadBtn">Load câu hỏi</button>
+        <button class="btn" id="shuffleBtn">Trộn câu</button>
+      </div>
+
+      <section class="questions" id="questions" aria-live="polite">
+        <p style="color:var(--muted);margin:0">Chưa có câu hỏi. Chọn lĩnh vực và bấm <strong>Load câu hỏi</strong>.</p>
+      </section>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div class="meta" style="flex:1;min-width:220px">
+          <div id="questionCount">Câu hỏi: 0</div>
+          <div id="timer" style="color:var(--muted)">Thời gian: --:--</div>
+        </div>
+
+        <div style="display:flex;gap:8px">
+          <button class="btn ghost" id="resetBtn">Đặt lại</button>
+          <button class="btn" id="submitBtn">Nộp bài</button>
+        </div>
+      </div>
+
+      <div id="resultArea" style="display:none;margin-top:10px"></div>
+    </main>
+  </div>
+
+  <script>
+    // --- Sample question bank (extended) ---
+    // The question bank is now simplified to map directly to the new dropdown values.
+    // Replace the sample questions below with your actual data for each category.
+    const BANK = {
+      'ltc-aip': [
+          {
+              id: 'c1',
+              q: "A transmission from one station to another station in circumstances where two-way communication cannot be established but where it is believed that the called station is able to receive the transmission:",
+              choices: [
+                  "Blind transmission",
+                  "One-way transmission",
+                  "Two-way transmission",
+                  "Radio check"
+              ],
+              answer: 0,
+              explanation: "Blind transmission: gửi khi không thể xác nhận hai chiều nhưng có thể tin tưởng bên kia nghe được."
+          },
+          {
+              id: 'c2',
+              q: "Who have the right to open an airport or aerodrome based on the airport or aerodrome system plans?",
+              choices: [
+                  "The Prime Minister",
+                  "The Minister of Transport",
+                  "The Civil Aviation Authority",
+                  "The Airport Owner"
+              ],
+              answer: 3,
+              explanation: "Quyền mở sân bay phụ thuộc vào chủ quản hoặc chủ đầu tư theo quy định kế hoạch."
+          }
+      ],
+      'ltc-nhanvien': [
+          // Add your questions for LTC-NHAN VIEN ARO here
+      ],
+      'ltcs-ad': [
+          {
+              id: 'o1',
+              q: "Which is the correct order for pushback?",
+              choices: ["Captain commands", "Ground crew disconnect", "Chocks removed", "Engines start"],
+              answer: 2,
+              explanation: "Chocks phải tháo trước pushback."
+          }
+          // Add more questions here
+      ],
+      'ltcs-nhanvien': [
+        {
+          id: 'q1',
+          q: '(CHG-UAL123-VVTS2230-VTBS-DOF/100304-13/VVTS0200-18/STS/HOSP PBN/B3 DOF/100305) means: the flight is further delayed until 0200 on 05 March 2010',
+          choices: [
+            'the flight is further delayed until 0200 on 05 March 2010',
+            'the flight is further delayed until 0200 on 04 March 2010',
+            'the estimate departure time will be 2230 on 04 March 2010',
+            'the estimate departure time will be 2230 on 05 March 2010'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 3, A3-40'
+        },
+        {
+          id: 'q2',
+          q: '(CNL-UAE393-VVTS1410-OMDB-0) means________.',
+          choices: [
+            'Cancel the flight plan of aircraft identification UAE393 from VVTS EOBT1410 to OMDB with no other information',
+            'Cancel the flight plan of aircraft identification UAE393 from VVTS to OMDB',
+            'Cancel the flight UAE393 from VVTS to OMDB',
+            'Delay the flight UAE393 from VVTS to OMDB'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 3, A3-41'
+        },
+        {
+          id: 'q3',
+          q: '“R, D” is mandatory in item 10a of flight plan when item 18 contains one of the following Performance Based Navigation (PBN/) descriptor________.',
+          choices: [
+            'B1, B3, C1, D3, D4 or O4',
+            'O1, O3, B4, C3, C4 and D1',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q4',
+          q: '“R, G” is mandatory in item 10a of flight plan when item 18 contains one of the following Performance Based Navigation (PBN/) descriptor________.',
+          choices: [
+            'B1, B2, C1, C2, D1, D2, O1 or O2',
+            'B1, B3, C1, C2, D1, D2, O3 or O4',
+            'B1, B2 ,C1, C3, D1, D2, O3 or O4',
+            'B1, B2, C1, C2, D1, D2, O1 or O4'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q5',
+          q: 'A delay message shall be transmitted when the departure of an aircraft, for which basic flight plan data(FPL or RPL) has been sent, is delayed by more than ________ after the estimated off-block time contained in the basicflight plan data.',
+          choices: [
+            '15 minutes',
+            '10 minutes',
+            '30 minutes',
+            '60 minutes'
+          ],
+          answer: 2,
+          explanation: 'Annex 11, 11.4.2.2.3 Chapter 11'
+        },
+        {
+          id: 'q6',
+          q: 'A flight plan for a flight to be provided with air traffic control service shall be submitted at least ________ before departure.',
+          choices: [
+            '60 minutes',
+            '30 minutes',
+            '15 minutes',
+            '10 minutes'
+          ],
+          answer: 2,
+          explanation: 'Annex 2/3.3.1.4'
+        },
+        {
+          id: 'q7',
+          q: 'A flight plan for a flight to be submitted via AFTN/AMHS/AIM/AIS or email which is applied for ________ departing from Noi Bai, Da Nang, Tan Son Nhat International airports in the Agreement between VNAIC and Pacific Airlines.',
+          choices: [
+            'Domestic flights',
+            'International flights',
+            'International and domestic flights',
+            'International and domestic flights (except VIP flights)'
+          ],
+          answer: 0,
+          explanation: 'VBPH đảm bảo dịch vụ làm thủ tục bay từ xa.'
+        },
+        {
+          id: 'q8',
+          q: 'A flight plan for a flight to be submitted via AFTN/AMHS/AIM/AIS or email which is applied for ________ departing from Noi Bai, Da Nang, Tan Son Nhat, Phu Quốc International airports in the Agreement between VNAIC and Pacific Airlines.',
+          choices: [
+            'Domestic flights',
+            'International flights',
+            'International and domestic flights (except VIP flights)',
+            'International and domestic flights'
+          ],
+          answer: 3,
+          explanation: 'VBPH đảm bảo dịch vụ làm thủ tục bay từ xa.'
+        },
+        {
+          id: 'q9',
+          q: 'An alternate aerodrome at which an aircraft can land should this become necessary shortly after take-off and it is not possible to use the aerodrome of departure is called?',
+          choices: [
+            'Take-off alternate',
+            'En-route alternate',
+            'Destination alternate',
+            'None of the above'
+          ],
+          answer: 0,
+          explanation: 'Annex 11, Chapter 1'
+        },
+        {
+          id: 'q10',
+          q: 'ARO/AIS units of international airports operates________',
+          choices: [
+            '24/24',
+            '18/24',
+            '12/24',
+            '08/24'
+          ],
+          answer: 0,
+          explanation: 'Chương II – TLHDKT cơ sở, AIP VN'
+        },
+        {
+          id: 'q11',
+          q: 'As regulated in operational manual of ARO/AIS units, the regular interval between amendment times is_______',
+          choices: [
+            'In May and November',
+            'In March and July',
+            'In March and November',
+            'In May and November, whenever necessary'
+          ],
+          answer: 0,
+          explanation: 'Chương I TLHDKT cơ sở'
+        },
+        {
+          id: 'q12',
+          q: 'Coordination message comprise ________.',
+          choices: [
+            'Current flight plan message, Estimate message, Coordination message',
+            'Acceptance message, Logical acknowledgement message.',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 3, A3-36'
+        },
+        {
+          id: 'q13',
+          q: 'Currently, the format of item 10a of the flight plan form is ________.',
+          choices: [
+            '1 character text field for first letter: S, N or blank',
+            'Longer text field for the operator to put equipment information up to 64 characters in length containing all possible values',
+            'There are also 2 characters groups rather than just 1 character designators',
+            'All of the above'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q14',
+          q: 'Currently, the format of item 10b of the flight plan form is ________.',
+          choices: [
+            'N or one or more of the following descriptors, to a maximum of 20 characters: A, C, E, H, I, L, P, S, X',
+            'One or more of the following groups: B1, B2, U1, U2, V1, V2, D1, G1',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-7'
+        },
+        {
+          id: 'q15',
+          q: 'Descriptor indicates a flight check for calibration of navaids, the flight plan will be filled as follows: ________.',
+          choices: [
+            'Item 8: X, Item 18: RMK/flight check',
+            'Item 8: S, Item 18: STS/ FLTCK',
+            'Item 8: X, Item 18: STS/FLTCK',
+            'Item 8: S, Item 18: STS/flight check'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q16',
+          q: 'Explain these characters in Field 10a: DFGHW/ Aircraft equipped with DME, GNSS, DATALINK, ACARS, RVSM Approved',
+          choices: [
+            'Aircraft equipped with DME, GNSS, DATALINK, ACARS, RVSM Approved',
+            'Aircraft equipped with DVOR, GPS, Inertial Navigation, CPDLC, Non- RVSM',
+            'Aircraft equipped with DME, ADF, GNSS, HF RTF, RVSM Approved',
+            'Aircraft equipped with DME, GPS, HF, ILS, RVSM Approved'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q17',
+          q: 'Explain these characters in Field 10a: ADRVL/ Aircraft equipped with DME, FMC WPR ACARS, RNP10, VHF, ILS',
+          choices: [
+            'Aircraft equipped with DME, FMC WPR ACARS, RNP10, VHF, ILS',
+            'Aircraft equipped with GBAS, DME, FMC WPR ACARS, PBN, VHF',
+            'Aircraft equipped with GBAS, DME, PBN, VHF RTF, ILS',
+            'All of the above'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q18',
+          q: 'Filed flight plan message and associated update message comprise ________.',
+          choices: [
+            'Filed flight plan message, Delay message and Cancellation message',
+            'Modification message Departure message and arrival message',
+            'All of the above',
+            '(1) and (2)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 3, A3-36'
+        },
+        {
+          id: 'q19',
+          q: 'If P is present in Item 10b, it excludes________.',
+          choices: [
+            'I, X, E, H, L and S.',
+            'A, I, E, H, L and S',
+            'I, X, E, H, L and A',
+            'I, X, E, H, L and C'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-7'
+        },
+        {
+          id: 'q20',
+          q: 'If no location indicator has been assigned for Destination aerodrome, insert _________ and specify in Item 18 the name and location of the aerodrome, preceded by DEST/',
+          choices: [
+            'KKKK',
+            'ZZZZ',
+            'DEST',
+            'ALTN'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-11'
+        },
+        {
+          id: 'q21',
+          q: 'If the letter R is used, the performance-based navigation levels that can be met are specified in Item 18 following the indicator_________.',
+          choices: [
+            'RNAV/',
+            'PBN/',
+            'RNP/',
+            'RNP AR/'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q22',
+          q: 'If a flight plan is filed more than 24 hours in advance of the estimated off-block time of the flight to which it refers the date of the flight departure shall be inserted in _________ of the flight plan',
+          choices: [
+            'item 18',
+            'item 19',
+            'item 09',
+            'item 08'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 11, 11.4.2.2.2.5'
+        },
+        {
+          id: 'q23',
+          q: 'If both B1 and B2 are present such that the PBN/field in item 18 appears as “PBN/B1B2”, item 18 will have________.',
+          choices: [
+            'NAV/GNSS B1 RNAV5 B2',
+            'NAV/GNSS B1B2',
+            'NAV/RNAV5 B1B2',
+            'NAV/RNAV5 B1 RNAV5 B2'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q24',
+          q: 'If the letter E is present in Item 10b, it means________.',
+          choices: [
+            'Transponder Mode S, including aircraft identification, no pressure-altitude capability and enhanced surveillance capability',
+            'Transponder Mode S, including aircraft identification, pressure-altitude, extended squitter (ADS-B) and capability enhanced surveillance capability',
+            'Transponder Mode S, including both pressure-altitude and aircraft identification capability',
+            'Transponder Mode S, including aircraft identification, pressure-altitude and extended squitter (ADS-B) capability'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-7'
+        },
+        {
+          id: 'q25',
+          q: 'If the flight is operated under the IFR, letter________ will be inserted ________.',
+          choices: [
+            'I - in field 3',
+            'I - in field 8',
+            'I - in field 10a',
+            'I - in field 7'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q26',
+          q: 'If the flight is operated under the VFR, letter________ will be inserted ________.',
+          choices: [
+            'V - in field 7',
+            'V - in field 3',
+            'V - in field 10a',
+            'V - in field 8'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q27',
+          q: 'If the letter B1 is used in item 18 of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'RNAV5 all permitted sensors',
+            'GNSS',
+            'GBAS',
+            'RVSM'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q28',
+          q: 'If the letter B2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 5 DME/DME',
+            'RNAV 5 GNSS',
+            'RNAV 5 LORANC',
+            'RNAV 5 VOR/DME'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q29',
+          q: 'If the letter B3 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 DME/DME',
+            'RNAV 5 GNSS',
+            'RNAV 5 DME/DME',
+            'RNAV 2 VOR/DME'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q30',
+          q: 'If the letter B4 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 10 VOR/DME',
+            'RNAV 5 VOR/DME',
+            'RNAV 2 DME/DME',
+            'RNAV 1 DME/DME'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q31',
+          q: 'If the letter B5 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 10 (INS or IRS)',
+            'RNAV 5 (INS or IRS)',
+            'RNAV 2 DME/DME',
+            'RNAV 1 DME/DME'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q32',
+          q: 'If the letter B6 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 5 DME/DME',
+            'RNAV 5 GNSS',
+            'RNAV 5 LORANC',
+            'RNAV 5 VOR/DME'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q33',
+          q: 'If the letter C1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 (all permitted sensor)',
+            'RNAV 10 (all permitted sensor)',
+            'RNAV 5 (all permitted sensor)',
+            'RNAV 1 (all permitted sensor)'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q34',
+          q: 'If the letter C2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 DME/DME',
+            'RNAV 2 GNSS',
+            'RNAV 5 GNSS',
+            'RNP 1 GNSS'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q35',
+          q: 'If the letter C3 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 DME/DME',
+            'RNAV 2 GNSS',
+            'RNAV 1 DME/DME',
+            'RNAV 2 VOR/DME'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q36',
+          q: 'If the letter C4 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 5 DME/DME',
+            'RNAV 2 GNSS',
+            'RNAV 1 DME/DME',
+            'RNAV 2 DME/DME/IRU'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q37',
+          q: 'If the letter D1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 (all permitted sensor)',
+            'RNAV 10 (all permitted sensor)',
+            'RNAV 5 (all permitted sensor)',
+            'RNAV 1 (all permitted sensor)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q38',
+          q: 'If the letter D2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 2 GNSS',
+            'RNAV 1 GNSS',
+            'RNAV 1 DME/DME',
+            'RNAV 1 DME/DME/IRU'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q39',
+          q: 'If the letter D3 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 1 DME/DME',
+            'RNAV 1 GNSS',
+            'RNAV 2 DME/DME',
+            'RNAV 1 DME/DME/IRU'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q40',
+          q: 'If the letter D4 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 10 DME/DME/IRU',
+            'RNAV 5 DME/DME/IRU',
+            'RNAV 2 DME/DME/IRU',
+            'RNAV 1 DME/DME/IRU'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q41',
+          q: 'If the letter G is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'GLONASS',
+            'GPS',
+            'GALILEO',
+            'GNSS and Item 18/NAV/GBAS or SBAS'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q42',
+          q: 'If the letter L1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP 4',
+            'RNP APCH',
+            'Basic RNP1 GNSS',
+            'RNAV 1 DME/DME/IRU'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q43',
+          q: 'If the letter O1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP 4',
+            'Basic RNP 1 all permitted sensors',
+            'RNP1 GNSS',
+            'RNAV 1 DME/DME/IRU'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q44',
+          q: 'If the letter O2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 1 GNSS',
+            'Basic RNP 1 all permitted sensors',
+            'Basic RNP1 GNSS',
+            'RNAV 2 GNSS'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q45',
+          q: 'If the letter S is used in field 10a of flight plan, standard equipment is considered to be ________.',
+          choices: [
+            'VHF RTF,VOR and ILS',
+            'VHF RTF, VOR, ADF and ILS',
+            'Radar mode S',
+            'VHF RTF,VOR, Radar mode S, and ILS.'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q46',
+          q: 'If the letter Z is used in field 10a of flight plan, specify in item 18 the other equipment carried or other capabilities, preceded by________.',
+          choices: [
+            'COM/, NAV/ and/or DAT/',
+            'COM/, SUR/and/or DAT/',
+            'NAV/, COM/and/or SUR',
+            'PBN/, NAV and/ or DAT/'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q47',
+          q: 'In case of a formation flight where there are more than one aircraft types, then ZZZZ shall be inserted in Item 9 and Item 18 shall contain________.',
+          choices: [
+            '18/TYP/ followed by the number and type of aircraft, each entry separated by a space',
+            '18/ACF/ followed by the number and type of aircraft, each entry separated by a space',
+            '18/ACF/ followed by the number and type of aircraft, each entry without space',
+            '18/TYP/ followed by the number and type of aircraft, each entry without space'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q48',
+          q: 'In current which ADS service is supplied for aircraft in Ho Chi Minh flight information region?',
+          choices: [
+            'ADS-B `OUT``IN`` using UAT',
+            'ADS-C with ATN capabilities',
+            'ADS-B',
+            'ADS-C with FANS1/A capabilities'
+          ],
+          answer: 3,
+          explanation: 'AIP Viet Nam, ENR 1.8-2'
+        },
+        {
+          id: 'q49',
+          q: 'In item 10 of flight plan, capabilities comprise________.',
+          choices: [
+            'Presence of relevant serviceable equiment on board the aircraft.',
+            'Equipment and capabilities commensurate with flight crew qualifications , and where applicable ,authorization from the appropriate authority.',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q50',
+          q: 'Specify in _______the point or points at which a change of flight rules is planned.',
+          choices: [
+            'Item 10',
+            'Item 13',
+            'Item 15',
+            'Item 18'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Amend 2-4'
+        },
+        {
+          id: 'q51',
+          q: 'In the event of a delay of ________ in excess of the estimated off-block time for a controlled flight or a delay of one hour for an uncontrolled flight for which a flight plan has been submitted, the flight plan should be amended or a new flight plan submitted and the old flight plan cancelled, whichever is applicable.',
+          choices: [
+            '60 minutes',
+            '24 hours',
+            '45 minutes',
+            '30 minutes'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, 4.4.2.1.1 Chapter 4'
+        },
+        {
+          id: 'q52',
+          q: 'In the event of a delay of ________ minutes in excess of the estimated off-block time for a controlled flight or delay of ________ minutes for an uncontrolled flight for which a flight plan has been submitted, the flight plan should be amended or a new flight plan submitted and the old flight plan cancelled, whichever is applicable: 30, 30',
+          choices: [
+            '30, 30',
+            '30, 60',
+            '60, 30',
+            '60, 60'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, 4.4.2.1.1 Chapter 4'
+        },
+        {
+          id: 'q53',
+          q: 'INSERT ‘I’ letters to denote the category of flight rules with which the pilot intends to comply________.',
+          choices: [
+            'If it is intended that the entire flight will be operated under the IFR',
+            'If it is intended that the entire flight will be operated under the VFR',
+            'If the flight initially will be operated under the IFR, followed by one or more subsequent changes of flight rules',
+            'If the flight initially will be operated under the VFR, followed by one or more subsequent changes of flight rules'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q54',
+          q: 'INSERT an oblique stroke followed by one of the following letters to indicate the wake turbulence category of the aircraft: H - HEAVY, to indicate an aircraft type with a maximum certificated take-off mass of ______ or more.',
+          choices: [
+            '135 000 kg',
+            '136 000 kg',
+            '235 000 kg',
+            '236 000 kg'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q55',
+          q: 'INSERT an oblique stroke followed by one of the following letters to indicate the wake turbulence category of the aircraft: ______, to indicate an aircraft type with a maximum certificated take-off mass of less than 136 000 kg but more than 7 000 kg.',
+          choices: [
+            'L — LIGHT',
+            'M — MEDIUM',
+            'H – HEAVY',
+            'None of the above'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q56',
+          q: 'INSERT an oblique stroke followed by one of the following letters to indicate the wake turbulence category of the aircraft: L — LIGHT, to indicate an aircraft type with a maximum certificated take-off mass of ______ or less.',
+          choices: [
+            '5 000 kg',
+            '6 000 kg',
+            '7 000 kg',
+            '8 000 kg'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q57',
+          q: 'It is now mandatory to insert in FPL Item 18 the date of flight departure if the flight plan is filed more than 24 hours in advance of the estimated off-block time of the flight. This also impacts on associated flight plan update messages________.',
+          choices: [
+            'ARR, CHG, CNL, DLA, DEP',
+            'CHG, CNL, DLA, ACP, RQS',
+            'CNL, DLA, DEP, ARR, RQP',
+            'DLA, DEP, ARR, RQP, SP'
+          ],
+          answer: 2,
+          explanation: 'Amendment 1, DOC 4444'
+        },
+        {
+          id: 'q58',
+          q: 'Item 13 (departure aerodrome) will be filed ZZZZ. It means________.',
+          choices: [
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18 /DEP',
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18/RALT',
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18/TALT',
+            'The name and location may be indicated in item 18/DEP'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q59',
+          q: 'Item 16 (Destination aerodrome) will be filed ZZZZ. Its means ________.',
+          choices: [
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18/RALT',
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18/TALT',
+            'The name and location may be indicated in item 18/DEP.',
+            'For aerodrome not listed in the relevant DOC 7910, the name and location may be indicated in item 18 /DEST'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q60',
+          q: 'Item 7 aircraft identifications must be described such as________.',
+          choices: [
+            'not exceeding 7 alphanumeric characters and without hyphens or symbols',
+            'not exceeding 8 alphanumeric characters and without hyphens or symbols',
+            'not exceeding 7 alphanumeric characters and hyphens or symbols',
+            'not exceeding 8 alphanumeric characters and hyphens or symbols'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-3'
+        },
+        {
+          id: 'q61',
+          q: 'Length of item 9 (type aircraft) is________.',
+          choices: [
+            'Maximum 4 alphanumeric characters including 2 characters and 2 numeric',
+            'Maximum 4 alphanumeric characters including 1 characters and 3 numeric',
+            'Maximum 4 alphanumeric characters including characters and numeric',
+            'Maximum 4 numeric characters'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q62',
+          q: 'Meaning of character "M" in the Field 8 of FPL message is ________.',
+          choices: [
+            'Status of Flight',
+            'Scheduled',
+            'Military',
+            'Non-scheduled'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q63',
+          q: 'Meaning of character "N" in the Field 8 of FPL message is ________.',
+          choices: [
+            'Status of Flight',
+            'Scheduled',
+            'Military',
+            'Non-scheduled'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q64',
+          q: 'Meaning of character "S" in the Field 8 of FPL message is________.',
+          choices: [
+            'Status of Flight',
+            'Single Flight',
+            'Scheduled',
+            'Special Flight'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q65',
+          q: 'For a flight plan received from an aircraft in flight, the total estimated elapsed time is the estimated time from the ________ of the route to which the flight plan applies to the termination point of the flight plan.',
+          choices: [
+            'First point',
+            'Second point',
+            'Last point',
+            'Highest point'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q66',
+          q: 'RQS is the name of ________.',
+          choices: [
+            'Request Supplementary Flight Plan Message',
+            'Request Short Flight Plan Message',
+            'Request Special Message',
+            'Request Schedule Flight Message'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 3, A3-46'
+        },
+        {
+          id: 'q67',
+          q: 'SPL is the message that answers for________.',
+          choices: [
+            'RQP Message',
+            'RPL Message',
+            'RQS Message',
+            'CPL Message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 3, A3-46'
+        },
+        {
+          id: 'q68',
+          q: 'In Item 15 of a FPL, insert maximum _______ characters for Cruising speed.',
+          choices: [
+            '3',
+            '4',
+            '5',
+            '6'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q69',
+          q: 'Supplementary messages comprise ________.',
+          choices: [
+            'Request flight plan message',
+            'Request supplementary flight plan message',
+            'Supplementary flight plan message',
+            'All of the above'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A3-2'
+        },
+        {
+          id: 'q70',
+          q: 'The character "W" in the Field 10a of FPL message indicates ________.',
+          choices: [
+            'RVSM approved',
+            'RNP10 Compliant',
+            'PBN compliant',
+            'Non-RVSM'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q71',
+          q: 'The first ATS unit receiving a flight plan shall________.',
+          choices: [
+            'Check it for compliance with the format and data convention',
+            'Check it for completeness and to the extent possible for accuracy',
+            'Take action, if necessary, to make it acceptable to the air traffic services.',
+            'All of the above'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, 4.4.3 Chapter 4'
+        },
+        {
+          id: 'q72',
+          q: 'The information after item DOF/ in field 18 is________.',
+          choices: [
+            'DDMMYY (DayMonthYear)',
+            'MMDDYY (MonthDayYear)',
+            'YYMMDD (YearMonthDay)',
+            'MMYYDD (MonthYearDay)'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-14'
+        },
+        {
+          id: 'q73',
+          q: 'The meaning of letter "D" in Field 10a in FPL message is________.',
+          choices: [
+            'Aircraft is equipped "DVOR"',
+            'Aircraft is equipped "DATALINK"',
+            'Aircraft is equipped "ADF"',
+            'Aircraft is equipped "DME"'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q74',
+          q: 'The meaning of letter "I" in Field 10a in FPL message is________.',
+          choices: [
+            'IFR',
+            'Microwave Landing System',
+            'Inertial Navigation System',
+            'Instrument Landing System (ILS)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q75',
+          q: 'The meaning of letter "J" in Field 10a in FPL message is________.',
+          choices: [
+            'Aircraft is equipped "CPDLC"',
+            'Aircraft is equipped "ADS-C"',
+            'Aircraft is equipped "Data link"',
+            'No meaning'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q76',
+          q: 'The meaning of letter "R" in Field 10a in FPL message is________.',
+          choices: [
+            'No',
+            'RNP10 Compliant',
+            'PBN Approved',
+            'RVSM Approved'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q77',
+          q: 'The meaning of letter "A" in Field 10a in FPL message is________.',
+          choices: [
+            'Aircraft Equipped with ACARS',
+            'Aircraft Equipped with "GBAS" Landing system on board',
+            'Aircraft Equipped with "SBAS" (APV, LPV) on board',
+            'All of the above'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q78',
+          q: 'The meaning of letter "F" in Field 10a in FPL message is________.',
+          choices: [
+            'FAN1/A',
+            'FMS (Flight Management System)',
+            'ADF (Automatic Direction Finder)',
+            'Fire-Fighting'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q79',
+          q: 'The meaning of letter "O" in Field 10a in FPL message is________.',
+          choices: [
+            'Aircraft is equipped OMEGA',
+            'Not Allocated by ICAO',
+            'Aircraft is equipped VOR',
+            'Aircraft is equipped LORAN-C'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q80',
+          q: 'The meaning of item REG/ in field 18 is________.',
+          choices: [
+            'SELCAL code',
+            'Remark',
+            'Registration mark',
+            'Destination Aerodrome'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-14'
+        },
+        {
+          id: 'q81',
+          q: 'The meaning of item SEL/ in field 18 is________.',
+          choices: [
+            'Registration code',
+            'Departure aerodrome',
+            'SELCAL code',
+            'Type of aircraft'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-14'
+        },
+        {
+          id: 'q82',
+          q: 'The name of Field 10b is________.',
+          choices: [
+            'Surveillance',
+            'Surveillance equipment',
+            'Equipment and capabilities',
+            'Surveillance equipment and capabilities'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-7'
+        },
+        {
+          id: 'q83',
+          q: 'The name of Field 8 in FPL message is ________.',
+          choices: [
+            'Callsign',
+            'Flight rules and type of flight',
+            'Route',
+            'Departure aerodrome and ETOB'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q84',
+          q: 'The sub-field PER shall be used to indicate one aircraft performance data whenever that information is necessary if required by an ATS authority. The PER descriptor shall be________.',
+          choices: [
+            'A, B, C, D, E, H',
+            'H, M, L, S, D, E',
+            'A, B, M, L, S, H',
+            'A, B, C, D, E, M'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-15'
+        },
+        {
+          id: 'q85',
+          q: 'The sub-field PER shall be used to indicate one aircraft performance data whenever that information is necessary if required by an ATS authority. The specifications can be found in________.',
+          choices: [
+            'PANS-OPS (Procedures for Air Navigation Services – Aircraft Operations)',
+            'Doc 8168 Volume I – Flight Procedures',
+            'All of the above',
+            '(1) and (2)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-15'
+        },
+        {
+          id: 'q86',
+          q: 'The time of receiving the shift at ARO/AIS units is at least ______ before working shift.',
+          choices: [
+            '5 minutes',
+            '10 minutes',
+            '15 minutes',
+            '20 minutes'
+          ],
+          answer: 2,
+          explanation: 'Chương II TLHDKT cơ sở'
+        },
+        {
+          id: 'q87',
+          q: 'The time of taking over the shift at ARO/AIS units is at least ______ before the end of working shift.',
+          choices: [
+            '5 minutes',
+            '10 minutes',
+            '15 minutes',
+            '20 minutes'
+          ],
+          answer: 1,
+          explanation: 'Chương II TLHDKT cơ sở'
+        },
+        {
+          id: 'q88',
+          q: 'The true airspeed for the first or the whole cruising portion of the flight, expressed as K followed by 4 figures, in terms of ________.',
+          choices: [
+            'True Mach number',
+            'Kilometres per hour',
+            'Knots',
+            'None of the above'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q89',
+          q: 'The true airspeed for the first or the whole cruising portion of the flight, expressed as N followed by 4 figures, in terms of ________.',
+          choices: [
+            'True Mach number',
+            'Kilometres per hour',
+            'Knots',
+            'None of the above'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q90',
+          q: 'The true airspeed for the first or the whole cruising portion of the flight, expressed as M followed by 3 figures, in terms of ________.',
+          choices: [
+            'True Mach number',
+            'Kilometres per hour',
+            'Knots',
+            'None of the above'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q91',
+          q: 'There are ________ descriptors in item 18/STS.',
+          choices: [
+            '13',
+            '12',
+            '09',
+            '23'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 3, A3-23'
+        },
+        {
+          id: 'q92',
+          q: 'A flight plan shall be submitted ________before the estimated off – block time of the flight.',
+          choices: [
+            'Not more than 24 hours',
+            'Not more than 120 hours',
+            'Not more than 72 hours',
+            'Not more than a day'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 4, 4.4.2.1.1'
+        },
+        {
+          id: 'q93',
+          q: 'What is the flight plan?',
+          choices: [
+            'Specified information provided to air traffic control units, relative to an intended flight or portion of a flight of an aircraft',
+            'Specified information provided to air traffic services units, relative to an intended flight of an aircraft',
+            'Specified information provided to air traffic services units, relative to an intended flight or portion of a flight of an aircraft',
+            'Specified information provided to air traffic control services, relative to an intended flight or portion of a flight of an aircraft'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Definitions chapter 1, page 1-9'
+        },
+        {
+          id: 'q94',
+          q: 'When a VIP aircraft is operating, the flight plan shall have________.',
+          choices: [
+            'Item18 RMK/VIP',
+            'Item 8 status of the flight: X',
+            'Item 18 STS/VIP',
+            'Item 8 status of the flight: X and item 18 STS/HEAD.'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q95',
+          q: 'When required by the appropriate ATS authority, any other plain language shall be inserted after item ________in field 18:',
+          choices: [
+            'TALT/',
+            'RMK/',
+            'COM/',
+            'RALT/'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-15'
+        },
+        {
+          id: 'q96',
+          q: 'Where DOF has been filed in a flight plan, a DOF identifier must be included in subsequent message types________.',
+          choices: [
+            'CHG, CNL, DLA, DEP,',
+            'CHG, CNL, DLA, DEP, RQS, RQP',
+            'CHG, CNL, DLA, ACP',
+            'DLA, DEP, RQS, RQP'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 3'
+        },
+        {
+          id: 'q97',
+          q: 'Where can you see the indicator “STS/” in a FPL?',
+          choices: [
+            'Item 9',
+            'Item 10A',
+            'Item 18',
+            'Item8'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q98',
+          q: 'Which item on flight plan indicates MNPS approved aircraft?',
+          choices: [
+            'Item 10a/U',
+            'Item 10a/Y',
+            'Item 10a/W',
+            'Item 10a/X'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q99',
+          q: 'Which item on flight plan indicates PBN approved aircraft?',
+          choices: [
+            'Item 10a/R',
+            'Item 10b/R',
+            'Item 18/R',
+            'Item 18/NAV/R'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q100',
+          q: 'Which item on flight plan indicates RVSM approved aircraft?',
+          choices: [
+            'Item 10a/U',
+            'Item 10a/Y',
+            'Item 10a/W',
+            'Item 10a/X'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q101',
+          q: 'A VFR flight cleared by air traffic control to operate within a control zone in meteorological conditions below VMC is called________.',
+          choices: [
+            'VFR flight',
+            'Special VFR flight',
+            'Controlled VFR flight',
+            'IFR flight.'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 1, page 1-6'
+        },
+        {
+          id: 'q102',
+          q: 'Cruising levels at which a flight is to be conducted mean________.',
+          choices: [
+            'Flight levels',
+            'Altitudes',
+            'Flight level for flights at or above the lowest usable flight level or altitude for flights below the lowest usable flight level',
+            'Flight level used for en-route flight'
+          ],
+          answer: 2,
+          explanation: 'Circulars 19/2017/TT-BGTVT , Appendix 1'
+        },
+        {
+          id: 'q103',
+          q: 'For a landing at an alternate or other aerodrome, an ARR message is transmitted to________.',
+          choices: [
+            'The ACC or flight information centre in whose area the arrival aerodrome is located and to the aerodrome control tower at the destination aerodrome',
+            'The air traffic services reporting office at the departure aerodrome',
+            'The ACC or flight information centre in charge of each FIR or upper FIR through which the aircraft wouldhave passed according to the flight plan, had it not diverted',
+            'All of the above'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, 11.4.2.2.7 Chapter 11'
+        },
+        {
+          id: 'q104',
+          q: 'For a landing at the destination aerodrome, an ARR message is transmitted________.',
+          choices: [
+            'To the ACC or flight information centre in whose area the arrival aerodrome is located, if required by thatunit',
+            'To the ATS unit, at the departure aerodrome, which originated the flight plan message, if that message included a request for an ARR message',
+            '(1) or (2)',
+            '(1) and (2)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, 11.4.2.2.7 Chapter 8'
+        },
+        {
+          id: 'q105',
+          q: 'RNAV is ________ which permits aircraft operation on any desired flight path within the coverage of ground-or space-based navigation aids or within the limits of the capacity of self-contained aids, or a combination of these.',
+          choices: [
+            'A method of navigation',
+            'A procedure of navigation',
+            'A system of navigation',
+            'A rule of air traffic control'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, 1.5 Chapter 1, page 1-5'
+        },
+        {
+          id: 'q106',
+          q: '________ is the altitude at or below which the vertical position of an aircraft is controlled by reference to altitudes.',
+          choices: [
+            'Transition Altitude',
+            'Transition Level',
+            'Minimum Sector Altitude (MSA)',
+            'Minimum En-route Altitude (MEA)'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 1, page 1-17'
+        },
+        {
+          id: 'q107',
+          q: 'The procedures to be applied for the provision for air traffic services to aircraft equipped with ACAS (Air bone Collision Avoidance System) shall be ________.',
+          choices: [
+            'Difference from those applicable to non- ACAS equipped aircraft',
+            'Identical to those applicable to- non ACAS equipped aircraft',
+            'Better for ATC, because they release ATC from responsibility to provide separation between aircraft equipped with ACAS',
+            '(1) and (2)'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444,15.7.3.1 Chapter 15'
+        },
+        {
+          id: 'q108',
+          q: 'The time validation of permission for arriving aircraft in Viet Nam shall become effective ________ prior to and until ________ after estimated time of arrival.',
+          choices: [
+            '12 hours - 24 hours',
+            '12 hours - 72 hours',
+            '3 hours - 72 hours',
+            '1 hour - 24 hours'
+          ],
+          answer: 3,
+          explanation: 'Decree 125/2015/NĐ-CP, Article 18'
+        },
+        {
+          id: 'q109',
+          q: 'The time validation of permission for over-flight aircraft in Viet Nam shall become effective ________ prior to and until ________ after estimated over-flight time.',
+          choices: [
+            '12 hours - 24 hours',
+            '3 hours - 72 hours',
+            '24 hours - 72 hours',
+            '1 hour - 12 hours'
+          ],
+          answer: 0,
+          explanation: 'Decree 125/2015/NĐ-CP, Article 18'
+        },
+        {
+          id: 'q110',
+          q: 'Time to submit an application for flight permission shall not be applied to ______. ',
+          choices: [
+            'Scheduled international flights into, from or over theterritory of Viet Nam',
+            'Flights serving scientific research, cultural and sport activities',
+            'Flights in emergency conditions',
+            'Non-scheduled international flights that overfly Vietnamese airspace for technical purpose'
+          ],
+          answer: 2,
+          explanation: 'AIP VN GEN 1.2'
+        },
+        {
+          id: 'q111',
+          q: 'To determine effect of wake turbulence, aircraft are grouped into the following categories ______.',
+          choices: [
+            'CAT I, CAT II, CAT III',
+            'SMALL, MEDIUM, LARGE',
+            'LIGHT, MEDIUM, HEAVY',
+            'CAT A, CAT B, CAT C'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444 , Chapter 4, 4.9.1.1'
+        },
+        {
+          id: 'q112',
+          q: 'Transition level is ________ ',
+          choices: [
+            '300m (1000 ft) above transition altitude',
+            'The lowest flight level available for use above the transition altitude',
+            'The lowest flight level an aircraft can use during its flight',
+            'The lowest flight level that can be given to arriving aircraft by air traffic unit'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 1, page 1-17'
+        },
+        {
+          id: 'q113',
+          q: 'Unless authorized by the appropriate ATS Authority, VFR flight shall not be operated ______.',
+          choices: [
+            'Above minimum flight level',
+            'Below minimum flight level',
+            'Above FL 200',
+            'Below FL 200'
+          ],
+          answer: 2,
+          explanation: 'Circulars 19/2017/TT-BGTVT, Appendix 1'
+        },
+        {
+          id: 'q114',
+          q: 'Which aircraft has first priority?',
+          choices: [
+            'Departing aircraft',
+            'Taxiing aircraft',
+            'Arriving aircraft on final approach',
+            'Arriving aircraft in the traffic pattern'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444 - 7.8'
+        },
+        {
+          id: 'q115',
+          q: 'The accuracy value is expected to be achieved at least _______ percent of the time by the population of aircraft operating within the RNP-10 airspace.',
+          choices: [
+            '99',
+            '95',
+            '90',
+            '100'
+          ],
+          answer: 1,
+          explanation: '1-14 DOC 4444'
+        },
+        {
+          id: 'q116',
+          q: 'In field type 18 of an ICAO flight plan, RALT means ______.',
+          choices: [
+            'Name of departure alternate aerodrome(s)',
+            'Name of destination alternate aerodrome(s)',
+            'Name of alternate aerodrome(s)',
+            'Name of en-route alternate aerodrome(s)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2'
+        },
+        {
+          id: 'q117',
+          q: 'Which item on flight plan indicates RNP10-approved aircraft?',
+          choices: [
+            'Item 1/R',
+            'Item 10/R',
+            'Item 18/R',
+            'Item 18/NAV/R'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2'
+        },
+        {
+          id: 'q118',
+          q: 'Which levels should be used for aircraft flying West?',
+          choices: [
+            '180, 240, 340',
+            '180, 290, 430',
+            '080, 280, 350',
+            '100, 200, 300'
+          ],
+          answer: 1,
+          explanation: 'Circular 19/2017/BGTVT, Appendix 5'
+        },
+        {
+          id: 'q119',
+          q: 'Air Traffic services reporting office (ARO) and Aerodrome AIS units (AIS) belongs to _______',
+          choices: [
+            'Airports Corporation of Viet Nam',
+            'Southern Air Traffic Management Company',
+            'Vietnam Air Traffic Management Corporation',
+            'Vietnam Airlines'
+          ],
+          answer: 2,
+          explanation: 'AIP Việt Nam'
+        },
+        {
+          id: 'q120',
+          q: 'Alternate aerodromes include_________.',
+          choices: [
+            'Destination alternate and Take-off alternate',
+            'Destination alternate and En-route alternate',
+            'En-route alternate, Destination alternate and Take-off alternate',
+            'None of the above'
+          ],
+          answer: 2,
+          explanation: 'Chapter 1 – Doc 4444, page 1-4'
+        },
+        {
+          id: 'q121',
+          q: 'The current flight plan is_________.',
+          choices: [
+            'The flight plan that the pilot has submitted to the ATS reporting office',
+            'The flight plan that the pilot has submitted to the ATS reporting office and the reporting office has checked and approved',
+            'The flight plan, including changes, if any, brought about by subsequent clearances',
+            'The flight plan concerning repetitive flights'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Chapter 1'
+        },
+        {
+          id: 'q122',
+          q: 'VIP flight means the flight, which is used _________and is certified or notified by the competent governmental authorities in accordance with VIP flight regulations.',
+          choices: [
+            'separately in combination with commercial air transport',
+            '(1) or (2)',
+            'separately or in combination with commercial air transport'
+          ],
+          answer: 2,
+          explanation: 'Khoản 2a điều 81 Luật hàng không'
+        },
+        {
+          id: 'q123',
+          q: 'What is Alternate aerodrome?',
+          choices: [
+            'Where an aircraft may proceed when it is impossible to land at the aerodrome of intended landing',
+            'An aerodrome to which an aircraft may proceed when it becomes either impossible or inadvisable to proceed to or to land at the aerodrome of intended landing',
+            'An aerodrome at which an aircraft would be able to land after experiencing an abnormal or emergency condition while en route',
+            'An aerodrome to which an aircraft expected to land'
+          ],
+          answer: 1,
+          explanation: 'Chapter 1 – Doc 4444, page 1-4'
+        },
+        {
+          id: 'q124',
+          q: 'What is “Take-off alternate”?',
+          choices: [
+            'An alternate aerodrome at which an aircraft would be able land should this become necessary shortly after take-off and it is not possible to use the aerodrome of departure',
+            'An alternate aerodrome at which an aircraft can land after take-off',
+            'An alternate aerodrome at which an aircraft can land after take-off and it is not possible to use the aerodrome of departure',
+            'An alternate aerodrome at which an aircraft can land after experiencing emergency'
+          ],
+          answer: 0,
+          explanation: 'Chapter 1 – Doc 4444, page 1-4'
+        },
+        {
+          id: 'q125',
+          q: 'When a VIP aircraft operating at an International Airport, the time limit is_________..',
+          choices: [
+            'Before 5 minutes and after 5 minutes',
+            'Before 10 minutes and after 10 minutes',
+            'Before 10 minutes and after 15 minutes',
+            'Before 15 minutes and after 10 minutes'
+          ],
+          answer: 3,
+          explanation: 'Điều 12-Thông Tư 28/2010/TT-BGTVT'
+        },
+        {
+          id: 'q126',
+          q: 'When unexpected events occur in the duty shift, who should report to ARO/AIS Unit\'s manager for problem solving?',
+          choices: [
+            'ARO/AIS staff',
+            'Watch supervisor',
+            'Deputy of AIS unit',
+            'All of the above'
+          ],
+          answer: 1,
+          explanation: 'Chương II TLHDKT cơ sở'
+        },
+        {
+          id: 'q127',
+          q: '_________is an airspace of defined dimensions within which flight information service and alerting service are provided.',
+          choices: [
+            'The area control',
+            'The approach control',
+            'The tower control',
+            'The Flight Information Region (FIR)'
+          ],
+          answer: 3,
+          explanation: 'Khoản 3 điều 2 Luật hàng không'
+        },
+        {
+          id: 'q128',
+          q: 'Acceptance of a flight plan. The first air traffic services unit receiving a flight plan, or change thereto, shall: Check it for compliance with the format and data conventions; check it for completeness and, to the extent possible, for accuracy',
+          choices: [
+            'Check it for compliance with the format and data conventions; check it for completeness and, to the extent possible, for accuracy',
+            'Check it for compliance with the format and data conventions; check it for completeness and, to the extent possible, for accuracy, then transmit to concerned units',
+            'Take action, if necessary, to make it acceptable to the air traffic services; and indicate acceptance of the flight plan or change thereto, to the originator',
+            '(1) and (3)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Chương 4, mục 4.4.3'
+        },
+        {
+          id: 'q129',
+          q: 'An Aeronautical telecommunication network (ATN) is ________.',
+          choices: [
+            'a Ground based Internetwork',
+            'an Air/Ground Internetwork',
+            'an Internet',
+            '(1) and (2)'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444 chapter 1-7'
+        },
+        {
+          id: 'q130',
+          q: '______ is an aircraft system based on secondary surveillance radar (SSR) transponder signals which operates independently of ground-based equipment to provide advice to the pilot on potential conflicting aircraft that are equipped with SSR transponders.',
+          choices: [
+            'Secondary Surveillance Radar (SSR)',
+            'Automatic Dependent Surveillance (ADS)',
+            'Airborne collision Avoidance System (ACAS)',
+            'Precision Approach Radar (PAR)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444 Chapter I Definition Page 1-2'
+        },
+        {
+          id: 'q131',
+          q: 'ATC unit may use the following means of communication for co-ordination purposes. AFTN Data- exchange circuits Direct speech circuits All of the above',
+          choices: [
+            'AFTN Data- exchange circuits',
+            'Direct speech circuits',
+            'All of the above'
+          ],
+          answer: 2,
+          explanation: '4.1 General- chapter 4 - Annex 10'
+        },
+        {
+          id: 'q132',
+          q: 'Record of FPLs shall be normally kept for at least _______days.',
+          choices: [
+            '3 days',
+            '7 days',
+            '15 days',
+            '30 days'
+          ],
+          answer: 3,
+          explanation: 'Tài liệu HDKT cơ sở'
+        },
+        {
+          id: 'q133',
+          q: 'For flight safety reason, air traffic control units shall have the right not to require an aircraft in flight to land at an airport and shall report such action immediately to______.',
+          choices: [
+            'The Director of Airport Authority and other competent governmental authority',
+            'The Director of Airport Authority',
+            'The competent governmental authority',
+            'The Director of Airport'
+          ],
+          answer: 2,
+          explanation: 'Khoản 4 điều 42 Luật hàng không'
+        },
+        {
+          id: 'q134',
+          q: 'The flight crew members responsible for the operation of an aircraft, including _______ required by the aircraft.',
+          choices: [
+            'Pilot-in-command, co-pilot and other aviation personnel',
+            'Pilot-in-command, co-pilot and cabin crews',
+            'Pilot-in-command, co-pilot and aviation security officers',
+            'Pilot-in-command, co-pilot and doctors'
+          ],
+          answer: 0,
+          explanation: 'Khoản 1 điều 72 Luật hàng không'
+        },
+        {
+          id: 'q135',
+          q: 'The request to change from IFR flight to VFR flight is ______. Made by pilot-in-command Suggested by ATC when VMC exist (1) and (2) (1) or (2)',
+          choices: [
+            'Made by pilot-in-command',
+            'Suggested by ATC when VMC exist',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 0,
+          explanation: 'Doc4444 - 4.8.1'
+        },
+        {
+          id: 'q136',
+          q: 'To administer the training and development of human resources, health expertise of the civil aviation industry is the responsibility of_______.',
+          choices: [
+            'VATM (Vietnam Air Traffic Management Corporation)',
+            'ACV (Airports Corporation of Vietnam)',
+            'CAAV (Civil Aviation Authority of Vietnam)',
+            'VAA (Vietnam Aviation Academy)'
+          ],
+          answer: 2,
+          explanation: 'Khoản 12 điều 8 Luật hàng không'
+        },
+        {
+          id: 'q137',
+          q: 'Transition level is the lowest _____ available for use above the transition altitude.',
+          choices: [
+            'Flight levels',
+            'Altitudes',
+            'Vertical position',
+            'Elevation'
+          ],
+          answer: 0,
+          explanation: 'Doc.4444, Chapter 1'
+        },
+        {
+          id: 'q138',
+          q: 'What is IFR?',
+          choices: [
+            'The symbol used to designate the instrument flight rules',
+            'The symbol used to designate the information flight region',
+            'The sign used to designate the information flight region'
+          ],
+          answer: 0,
+          explanation: 'Doc.4444, Chapter 1'
+        },
+        {
+          id: 'q139',
+          q: 'Standard DLA messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 7, 13, 15, 16, 18',
+            'Fields 3, 7, 10, 13, 16, 18',
+            'Fields 3, 7, 13, 16, 18',
+            'Fields 3, 7, 8, 13, 16, 18'
+          ],
+          answer: 2,
+          explanation: 'Doc.4444, Appendix 3, A3-41'
+        },
+        {
+          id: 'q140',
+          q: 'Standard CNL messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 7, 13, 16, 18',
+            'Fields 3, 7, 10, 13, 16, 18',
+            'Fields 3, 7, 8, 13, 16, 18',
+            'Fields 3, 7, 8, 15, 16, 18'
+          ],
+          answer: 0,
+          explanation: 'Doc.4444, Appendix 3, A3-41'
+        },
+        {
+          id: 'q141',
+          q: 'Standard CHG messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 5, 7, 13, 16, 18, 22',
+            'Fields 3, 7, 13, 16, 18, 22',
+            'Fields 3, 7, 13, 15, 16, 18, 22',
+            'Fields 3, 7, 8, 13, 16, 18, 22'
+          ],
+          answer: 1,
+          explanation: 'Doc.4444, Appendix 3, A3-40'
+        },
+        {
+          id: 'q142',
+          q: 'Standard ARR messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 7, 8, 13, 17',
+            'Fields 3, 7, 15, 16, 17',
+            'Fields 3, 13, 16, 17, 18',
+            'Fields 3, 7, 13, 16, 17'
+          ],
+          answer: 3,
+          explanation: 'Doc.4444, Appendix 3, A3-42'
+        },
+        {
+          id: 'q143',
+          q: 'Standard ACP messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 8, 13, 16',
+            'Fields 3, 7, 15, 16',
+            'Fields 3, 7, 13, 18',
+            'Fields 3, 7, 13, 16'
+          ],
+          answer: 3,
+          explanation: 'Doc.4444, Appendix 3, A3-46'
+        },
+        {
+          id: 'q144',
+          q: 'Emergency message comprise ________.',
+          choices: [
+            'Alerting message',
+            'Radio communication failure message',
+            '(1) and (2)',
+            '(1) or (2)'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-2, A3-36'
+        },
+        {
+          id: 'q145',
+          q: 'If the letter S1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP APCH',
+            'RNP AR APCH with RF',
+            'RNP AR APCH without RF',
+            'RNP APCH with BAR-VNAV'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q146',
+          q: 'If the letter S2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP APCH',
+            'RNP AR APCH with RF',
+            'RNP AR APCH without RF',
+            'RNP APCH with BAR-VNAV'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q147',
+          q: 'If the letter A1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP 4',
+            'RNP APCH',
+            'RNAV 10 (RNP 10)',
+            'RNP APCH with BAR-VNAV'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q148',
+          q: 'RCF is the name of ________.',
+          choices: [
+            'Current flight plan message',
+            'Flight plan cancellation message',
+            'Radio communication failure (RCF) message',
+            'Request supplementary flight plan message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 3, A3-47'
+        },
+        {
+          id: 'q149',
+          q: 'CHG is the name of ________.',
+          choices: [
+            'Delay Message',
+            'Departure Message',
+            'Modification message',
+            'Cancellation Message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 3, A3-40'
+        },
+        {
+          id: 'q150',
+          q: '________ is the flight plan as filed with an ATS unit by the pilot or a designated representative, without any subsequent changes.',
+          choices: [
+            'Flight plan',
+            'Filed flight plan',
+            'Proposal flight plan',
+            'Current flight plan'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 1'
+        },
+        {
+          id: 'q151',
+          q: 'ACP is the name of ________.',
+          choices: [
+            'Arrival message',
+            'Acceptance message',
+            'Cancellation Message',
+            'Departure Message'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11'
+        },
+        {
+          id: 'q152',
+          q: 'The name of Field 10 in FPL message is ________.',
+          choices: [
+            'Flight rules and type of flight',
+            'Equipment and Capabilities',
+            'Departure aerodrome and Time',
+            'Equipment'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2'
+        },
+        {
+          id: 'q153',
+          q: 'The name of Field 13 in FPL message is ________.',
+          choices: [
+            'Flight rules and type of flight',
+            'Equipment and Capabilities',
+            'Departure aerodrome and Time',
+            'Equipment'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2'
+        },
+        {
+          id: 'q154',
+          q: 'The name of Field 15 in FPL message is ________.',
+          choices: [
+            'Equipment and Capabilities',
+            'Departure aerodrome and Time',
+            'Destination aerodrome and Time',
+            'Route'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2'
+        },
+        {
+          id: 'q155',
+          q: 'A Proposal flight plan for a domestic flight (except VIP flights) shall be submitted to ARO unit via AFTN/AMHS/AIS at least ________before the estimated off – block time of the flight.',
+          choices: [
+            '3 hours',
+            '2 hours 30 minutes',
+            '3 hours 30 minutes',
+            '60 minutes'
+          ],
+          answer: 1,
+          explanation: 'Quyết định 1485/QĐ-CHK ngày 20/8/2020'
+        },
+        {
+          id: 'q156',
+          q: 'A Proposal flight plan for an international flight (except VIP flights) shall be submitted to ARO unit via AFTN/AMHS or AIS/AIM or email at least ________before the estimated off – block time of the flight.',
+          choices: [
+            '3 hours',
+            '2 hours 30 minutes',
+            '3 hours 30 minutes',
+            '60 minutes'
+          ],
+          answer: 0,
+          explanation: 'Quyết định 1485/QĐ-CHK ngày 20/8/2020'
+        },
+        {
+          id: 'q157',
+          q: 'After receiving a proposal flight plan on AFTN/AMHS or AIS/AIM or email, ARO staffs have to check, inform an approval of flight plan to the concerning address via AFTN/AMHS or AIS/AIM or email at least ________before the estimated off – block time of the flight.',
+          choices: [
+            '30 minutes',
+            '60 minutes',
+            '80 minutes',
+            '2 hours'
+          ],
+          answer: 0,
+          explanation: 'Quyết định 1485/QĐ-CHK ngày 20/8/2020'
+        },
+        {
+          id: 'q158',
+          q: 'The flight plan shall be submitted by the pilot, an operator or a designated representative, at least ________ prior to the Estimated Off-Block Time (EOBT).',
+          choices: [
+            '1. one hour',
+            '2. two hours',
+            '3. four hours',
+            '4. five hours'
+          ],
+          answer: 0,
+          explanation: 'ENR 1.10-1 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q159',
+          q: 'For flights expected to be subjected to multi-nodal ATFM measure, the flight plan shall be submitted by the pilot, an operator or a designated representative, at least ________ prior to the Estimated Off-Block Time (EOBT).',
+          choices: [
+            '1. one hour',
+            '2. two hours',
+            '3. three hours',
+            '3. four hours'
+          ],
+          answer: 1,
+          explanation: 'ENR 1.10-1 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q160',
+          q: 'If submitted during flight, the FPL shall be submitted to the appropriate air traffic services unit at least ________ before the aircraft is estimated to reach the intended point of entry into a control area or the point of crossing an airway.',
+          choices: [
+            '10 minutes',
+            '1. 5 minutes',
+            '2. 10 minutes',
+            '3. 15 minutes',
+            '4. 30 minutes'
+          ],
+          answer: 1,
+          explanation: 'ENR 1.10-1 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q161',
+          q: 'The FPL shall not be submitted ________ before EOBT of a flight',
+          choices: [
+            '1. 3 hours',
+            '2. 42 hours',
+            '3. 72 hours',
+            '4. 120 hours'
+          ],
+          answer: 3,
+          explanation: 'ENR 1.10-1 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q162',
+          q: 'The pilot, an operator or a designated representative must immediately provide information about the change EOBT to the submitted flight plan using the following form: 1. (DLA-HVN123-VVNB0300-VVTS-0) 2. (DLA-HVN123-VVNB0300-VVTS-DOF/240916) 3. (DLA-HVN123- DOF/240916- VVNB0300-VVTS-0) 4. (1) and (2) are correct',
+          choices: [
+            '1. (DLA-HVN123-VVNB0300-VVTS-0)',
+            '2. (DLA-HVN123-VVNB0300-VVTS-DOF/240916)',
+            '3. (DLA-HVN123- DOF/240916- VVNB0300-VVTS-0)',
+            '4. (1) and (2) are correct'
+          ],
+          answer: 3,
+          explanation: 'ENR 1.10-4 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q163',
+          q: 'In case the flight is delayed over the 0000 UTC, the pilot, an operator or a designated representative must provide information about the delay to the designated ARO using the form below.',
+          choices: [
+            '1.(CHG-HVN123-VVNB2300-VVTS-DOF/240916-13/VVNB004518/PBN/A1B1C1D1L1 DOF/240917)',
+            '2.(CHG-HVN123-VVNB2300-VVTS-DOF/240916-DOF/240917-13/VVNB004518/PBN/A1B1C1D1L1)',
+            '3.(CHG-HVN123-VVNB2300-VVTS-DOF/240916-13/VVNB004518/PBN/A1B1C1D1L1)',
+            '3.(CHG-HVN123-VVNB2300-VVTS- 13/VVNB004518/PBN/A1B1C1D1L1)'
+          ],
+          answer: 0,
+          explanation: 'ENR 1.10-4 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q164',
+          q: 'When the route changes leading to change FIRs in the submitted flight plan: The pilot, an operator or a designated representative must provide information about ________',
+          choices: [
+            '1. the changes of the submitted FPL',
+            '2. the cancellation of the submitted FPL',
+            '3. the cancellation of the submitted FPL and immediately submit a new FPL',
+            '4. the changes of the submitted FPL and immediately submit a new FPL'
+          ],
+          answer: 2,
+          explanation: 'ENR 1.10-4 31 OCT 2024 (AIP Viet Nam)'
+        },
+        {
+          id: 'q165',
+          q: 'ALR message is ________.',
+          choices: [
+            'Acceptace message',
+            'Alerting message',
+            'Arrival message',
+            'Approval request message'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q166',
+          q: 'CHG message is ________.',
+          choices: [
+            'Supplementary message',
+            'Modification message flight plan message',
+            'Modification message',
+            'Change message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q167',
+          q: 'FPL message is ________.',
+          choices: [
+            'Flight plan message',
+            'Current flight plan message',
+            'Filed flight plan message',
+            'Approval flight plan message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q168',
+          q: 'CPL message is ________.',
+          choices: [
+            'Flight plan message',
+            'Current flight plan message',
+            'Coordination flight plan message',
+            'Approval flight plan message'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q169',
+          q: 'CDN message is ________.',
+          choices: [
+            'Cancellation message',
+            'Current flight plan message',
+            'Coordination flight plan message',
+            'Coordination message'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q170',
+          q: 'ACP message is ________.',
+          choices: [
+            'Arrival message',
+            'Alerting message',
+            'Acceptance message',
+            'Approval request message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q171',
+          q: 'RQS message is ________.',
+          choices: [
+            'Request flight plan message',
+            'Supplementary flight plan message',
+            'Request supplementary message',
+            'Request supplementary flight plan message'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q172',
+          q: 'RQP message is ________.',
+          choices: [
+            'Request flight plan message',
+            'Request message',
+            'Request supplementary message',
+            'Request supplementary flight plan message'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q173',
+          q: 'SPL message is ________.',
+          choices: [
+            'Supplementary message',
+            'Request supplementary message',
+            'Supplementary flight plan message',
+            'Request supplementary flight plan message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q174',
+          q: 'ARR message is ________.',
+          choices: [
+            'Acceptace message',
+            'Alerting message',
+            'Approval message',
+            'Arrival message'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q175',
+          q: 'Supplementary messages comprise ________.',
+          choices: [
+            'Request flight plan message, Supplementary flight plan message, Coordination flight plan message',
+            'Request flight plan message, Request Supplementary flight plan message.',
+            'Supplementary flight plan message, Request flight plan message, Request Supplementary flight plan message, Request supplementary flight plan message.'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q176',
+          q: 'Emergency messages comprise ________.',
+          choices: [
+            'Alerting message, Coordination message',
+            'Alerting message',
+            'Alerting message, Radiocommunication failure message',
+            'Radiocommunication failure message'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q177',
+          q: 'If the letter O3 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNAV 1 GNSS',
+            'Basic RNP 1 all permitted sensors',
+            'Basic RNP1 GNSS',
+            'Basic RNP1 DME/DME'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q178',
+          q: 'If the letter O4 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'Basic RNP1 DME/DME',
+            'Basic RNP 1 all permitted sensors',
+            'Basic RNP1 DME/DME/IRU',
+            'Basic RNP1 GNSS'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q179',
+          q: 'If the letter H is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'HF RTF.',
+            'Hight frequency',
+            'UHF RTF',
+            'VHF RTF'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q180',
+          q: 'If the letter D is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'D-FIS ACARS.',
+            'GBAS landing system',
+            'DME',
+            'DVOR'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q181',
+          q: 'If the letter E1 is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'PDC ACARS.',
+            'D-FIS ACARS.',
+            'FMC WPR TCARS',
+            'FMC WPR ACARS'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q182',
+          q: 'If the letter E2 is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'PDC ACARS',
+            'D-FIS ACARS',
+            'D-FIS TCARS',
+            'TCARS'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q183',
+          q: 'If the letter E3 is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'PDC ACARS',
+            'D-FIS ACARS',
+            'D-FIS TCARS',
+            'PDC TCARS'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q184',
+          q: 'If the letter V is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'HF RTF',
+            'VHF RTF',
+            'UHF RTF',
+            'VOR'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q185',
+          q: 'If the letter U is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'HF RTF',
+            'VHF RTF',
+            'UHF RTF',
+            'MLS'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q186',
+          q: 'If the letter G is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'GBAS',
+            'SBAS',
+            'ABAS',
+            'GNSS'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q187',
+          q: 'If the letter I is used in field 10a of flight plan, equipped aircraft will be ________.',
+          choices: [
+            'Instrument landing system',
+            'Intertial Navigation',
+            'Inner maker',
+            'PBN aproved'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q188',
+          q: 'If the letter X is used in field 10a of flight plan, standard equipment is considered to be ________.',
+          choices: [
+            'RVSM aproved',
+            'PBN aproved',
+            'NON- RVSM',
+            'MNPS aproved'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q189',
+          q: 'Meaning of character "G" in the Field 8 of FPL message is________.',
+          choices: [
+            'Military',
+            'General aviation',
+            'Non-scheduled',
+            'Special Flight'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q190',
+          q: 'In Item 13 of a FPL, insert _______ location indicator of the departure aerodrome as specified in Doc 7910, Location indicators.',
+          choices: [
+            'four-letter',
+            'three-letter',
+            'five-letter',
+            'six-letter'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q191',
+          q: 'The meaning of letter "L" in Field 10a in FPL message is________.',
+          choices: [
+            'IFR',
+            'Microwave Landing System',
+            'Inertial Navigation System',
+            'Instrument Landing System (ILS)'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q192',
+          q: 'The meaning of letter "Y" in Field 10a in FPL message is________.',
+          choices: [
+            'HF with 8.33 KHz channel spacing capability',
+            'VHF with 8.33 KHz channel spacing capability',
+            'HF RTF',
+            'UHF with 8.33 KHz channel spacing capability'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q193',
+          q: 'The name of Field 7 is________.',
+          choices: [
+            'Flight rules and type of flight',
+            'Surveillance equipment and capabilities',
+            'Aircraft identification',
+            'Route'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-3'
+        },
+        {
+          id: 'q194',
+          q: 'The name of Field 9 is________.',
+          choices: [
+            'Number and type of air craft and wake turbulence catergory',
+            'Surveillance equipment and capabilities',
+            'Number and type of air craft',
+            'Route'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-4'
+        },
+        {
+          id: 'q195',
+          q: 'The name of Field 16 is________.',
+          choices: [
+            'Destination aerodrome and total estimated elapsed time, destination alternate aerodrome (s)',
+            'Surveillance equipment and capabilities',
+            'Departure aerodrome and time',
+            'Destination aerodrome and total estimated elapsed time.'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q196',
+          q: 'If the letter T1 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP APCH',
+            'RNP AR APCH with RF (special authorization required)',
+            'RNP AR APCH without RF(special authorization required)',
+            'RNP APCH with BAR-VNAV'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q197',
+          q: 'If the letter T2 is used in item 18 of flight plan, equipped aircraft will be________.',
+          choices: [
+            'RNP APCH',
+            'RNP AR APCH with RF (special authorization required)',
+            'RNP AR APCH without RF (special authorization required)',
+            'RNP APCH with BAR-VNAV'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-13'
+        },
+        {
+          id: 'q198',
+          q: 'The True airspeed for the first or the whole cruising portion of the flight, in terms of: Kilometres per hour, expressed as K followed by 4 figures 3 figures 5 figures 6 figures',
+          choices: [
+            '4 figures',
+            '3 figures',
+            '5 figures',
+            '6 figures'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q199',
+          q: 'The True airspeed for the first or the whole cruising portion of the flight, in terms of: Knots, expressed as N followed by …………….. 4 figures 6 figures 5 figures 4 figures',
+          choices: [
+            '4 figures',
+            '6 figures',
+            '5 figures',
+            '4 figures'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q200',
+          q: 'The planned cruising level for the first or the whole portion of the route to be flown, in terms of: Flight level, expressed as F followed by …………….. 4 figures 3 figures 5 figures 6 figures',
+          choices: [
+            '4 figures',
+            '3 figures',
+            '5 figures',
+            '6 figures'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q201',
+          q: 'The planned cruising level for the first or the whole portion of the route to be flown, in terms of: Standard metric level in tens of metres, expressed as S followed by………… 4 figures 6 figures 5 figures 4 figures',
+          choices: [
+            '4 figures',
+            '6 figures',
+            '5 figures',
+            '4 figures'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q202',
+          q: 'The planned cruising level for the first or the whole portion of the route to be flown, in terms of: Altitude in hundreds of feet, expressed as A followed by ………. 5 figures 4 figures 3 figures 6 figures',
+          choices: [
+            '5 figures',
+            '4 figures',
+            '3 figures',
+            '6 figures'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q203',
+          q: 'The planned cruising level for the first or the whole portion of the route to be flown, in terms of: Altitude in hundreds of feet, expressed as A followed by ………. 5 figures 4 figures 3 figures 6 figures',
+          choices: [
+            '5 figures',
+            '4 figures',
+            '3 figures',
+            '6 figures'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q204',
+          q: 'The planned cruising level for the first or the whole portion of the route to be flown, in terms of: Altitude in tens of metres, expressed as M followed by…… 7 figures 5 figures 3 figures 4 figures',
+          choices: [
+            '7 figures',
+            '5 figures',
+            '3 figures',
+            '4 figures'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-8'
+        },
+        {
+          id: 'q205',
+          q: 'Supplementary message comprise ________.',
+          choices: [
+            'Request flight message',
+            'supplementary flight plan message',
+            'Request Supplementary flight plan message',
+            'All of the above'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A3-36'
+        },
+        {
+          id: 'q206',
+          q: 'If the letter S is present in Item 10b, it means________.',
+          choices: [
+            'Transponder Mode S, including both pressure-altitude an aircraft identification capability',
+            'Transponder Mode S, including aircraft identification, pressure-altitude, extended squitter (ADS-B) and capability enhanced surveillance capability',
+            'Transponder Mode S, including pressure-altitude, but no aircraft identification capability',
+            'Transponder Mode S, including aircraft identification, pressure-altitude and extended squitter (ADS-B) capability'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-7'
+        },
+        {
+          id: 'q207',
+          q: 'If no location indicator has been assigned to the destination alternate aerodrome, insert _________ and specify in Item 18 the name and location of the destination alternate aerodrome, preceded by ALTN/',
+          choices: [
+            'KKKK',
+            'ALTN',
+            'DEST',
+            'ZZZZ'
+          ],
+          answer: 3,
+          explanation: 'Appendix 2, A2-12'
+        },
+        {
+          id: 'q208',
+          q: 'Explain these characters in Field 10a: DFLOV/ Aircraft equipped with DME, HF, ILS, VOR, VHF RTF',
+          choices: [
+            'Aircraft equipped with DME, HF, ILS, VOR, VHF RTF',
+            'Aircraft equipped with DVOR, ADF, ILS, VOR, VHF RTF',
+            'Aircraft equipped with DME, ADF, LORAN C, VOR, VHF RTF',
+            'Aircraft equipped with DME, ADF, ILS, VOR, VHF RTF'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q209',
+          q: 'In Item 16, if no location indicator has been assigned to the destination alternate aerodrome(s), insert ZZZZ and specify in Item 18 the name and location of the destination alternate aerodrome(s), preceded by ……… ARR/',
+          choices: [
+            'DEST/',
+            'DEP/',
+            'ALTN/'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-12'
+        },
+        {
+          id: 'q210',
+          q: 'If the letter A is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'ADF',
+            'GBAS landing system',
+            'DME',
+            'DVOR'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q211',
+          q: 'If the letter F is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'HF RTF',
+            'ADF',
+            'UHF RTF',
+            'VHF RTF'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q212',
+          q: 'If the letter I is used in field 10a of flight plan, equipped aircraft will be________.',
+          choices: [
+            'ILS',
+            'GBAS landing system',
+            'D-FIS ACARSI',
+            'I (Inertial Navigation)'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q213',
+          q: 'Standard DEP messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 7, 8, 13, 17',
+            'Fields 3, 7, 15, 16, 17',
+            'Fields 3, 13, 16, 17, 18',
+            'Fields 3, 7, 13, 16, 18'
+          ],
+          answer: 3,
+          explanation: 'Doc.4444, Appendix 3, A3-42'
+        },
+        {
+          id: 'q214',
+          q: 'Standard RQP messages fields and their composition consist of ________.',
+          choices: [
+            'Fields 3, 7, 8, 13, 17',
+            'Fields 3, 7, 15, 16, 17',
+            'Fields 3, 7, 13, 16, 18',
+            'Fields 3, 7, 13, 16, 17'
+          ],
+          answer: 3,
+          explanation: 'Doc.4444, Appendix 3, A3-42'
+        },
+        {
+          id: 'q215',
+          q: 'When an ATS unit is aware that an aircraft in its area is experiencing radiocommunication failure, ………shall be transmitted to all subsequent ATS units along the route of flight which have already received basic flight plan data (FPL or RPL) and to the aerodrome control tower at the destination aerodrome, if basic flight plan data has been previously sent.',
+          choices: [
+            'a ALR message',
+            'an RCF message',
+            'an RQS message',
+            'a CHG message'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11, page 4.1.3.1'
+        },
+        {
+          id: 'q216',
+          q: 'Movement messages comprise: delay messages, modification messages, flight plan cancellation message,s departure messages and arrival messages.',
+          choices: [
+            'delay messages, modification messages, flight plan cancellation message,s departure messages and arrival messages.',
+            'departure messages and arrival messages.',
+            'filed flight plan messages, delay messages, modification messages, flight plan cancellation messages, departure messages and arrival messages.',
+            'filed flight plan messages, modification messages, departure messages and arrival messages.'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.2.1'
+        },
+        {
+          id: 'q217',
+          q: 'Unless repetitive flight plan procedures are being applied or current flight plan messages are being employed, filed flight plan messages shall be transmitted for all flights for which a flight plan has been submitted with the object of being provided with …………………………along part or the whole of the route of flight.',
+          choices: [
+            'air traffic control service',
+            'flight information service or alerting service',
+            'air traffic control service, flight information service or alerting service',
+            'air traffic sevice reporting offices'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.2.1'
+        },
+        {
+          id: 'q218',
+          q: 'A request flight plan (RQP) message shall be transmitted when………………………',
+          choices: [
+            'an ATS unit wishes to obtain supplementary flight plan data.',
+            'the departure of an aircraft, for which basic flight plan data (FPL or RPL) has been sent, is delayed by more than 30 minutes after the estimated off-block time contained in the basic flight plan data',
+            'an ATS unit wishes to obtain flight plan data.',
+            'a flight, for which basic flight plan data has been previously distributed, has been cancelled.'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.4.2'
+        },
+        {
+          id: 'q219',
+          q: 'A request supplementary flight plan (RQS) message shall be transmitted when ………………………',
+          choices: [
+            'an ATS unit wishes to obtain supplementary flight plan data.',
+            'the departure of an aircraft, for which basic flight plan data (FPL or RPL) has been sent, is delayed by more than 30 minutes after the estimated off-block time contained in the basic flight plan data',
+            'an ATS unit wishes to obtain flight plan data.',
+            'a flight, for which basic flight plan data has been previously distributed, has been cancelled.'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.4.3'
+        },
+        {
+          id: 'q220',
+          q: 'A current flight plan (CPL) message shall be transmitted in sufficient time to permit each ATS unit concerned to receive the information at least…………………………before the time at which the aircraft is estimated to pass the transfer of control point or boundary point at which it comes under the control of such unit, unless another period of time has been prescribed by the appropriate ATS authority.',
+          choices: [
+            '30 minutes',
+            '60 minutes',
+            '10 minutes',
+            '20 minutes'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.2.3'
+        },
+        {
+          id: 'q221',
+          q: 'A flight plan cancellation (CNL) message shall be transmitted when……………………………..',
+          choices: [
+            'any change is to be made to basic flight plan data contained in previously transmitted FPL or RPL data.',
+            'a flight, for which basic flight plan data has been previously distributed, has been cancelled.',
+            'the departure of an aircraft, for which basic flight plan data (FPL or RPL) has been sent, is delayed by more than 30 minutes after the estimated off-block time contained in the basic flight plan data.',
+            '(1) And (2) are correct'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.5'
+        },
+        {
+          id: 'q222',
+          q: 'FPL messages should be transmitted immediately after the filing of the flight plan. If a flight plan is filed more than 24 hours in advance of the estimated off-block time of the flight to which it refers, the date of the flight departure shall be inserted in…………………..',
+          choices: [
+            'Item 10 of the flight plan.',
+            'Item 18 of the flight plan.',
+            'Item 19 of the flight plan.',
+            'Item 13 of the flight plan.'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.5'
+        },
+        {
+          id: 'q223',
+          q: 'Which type of a message shall be transmitted when the departure of an aircraft, for which basic flight plan data (FPL or RPL) has been sent, is delayed by more than 30 minutes after the estimated off-block time contained in the basic flight plan data?',
+          choices: [
+            'CHG message',
+            'DLA message',
+            'RQP message',
+            'CNL message'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.3'
+        },
+        {
+          id: 'q224',
+          q: 'Which type of a message shall be transmitted when any change is to be made to basic flight plan data contained in previously transmitted FPL or RPL data?',
+          choices: [
+            'CHG message',
+            'DLA message',
+            'RQP message',
+            'CNL message'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 11, page 4.2.2.4'
+        },
+        {
+          id: 'q225',
+          q: 'Unless another combination is prescribed by the appropriate ATS authority, if the letter S is used in ITEM 10, standard equipment is considered to be ________',
+          choices: [
+            'VOR, DME and ILS',
+            'VHF RTF, HF and ILS',
+            'VHF RTF, VOR and ILS',
+            'VHF RTF, VOR and DME'
+          ],
+          answer: 2,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q226',
+          q: 'If the letter R is used in ITEM 10, the performance-based navigation levels that can be met are specified in Item 18 following the indicator________',
+          choices: [
+            'RNP',
+            'RNAV',
+            'VOR',
+            'PBN'
+          ],
+          answer: 3,
+          explanation: 'Doc 4444, Appendix 2, A2-6'
+        },
+        {
+          id: 'q227',
+          q: 'Flight plans shall not be submitted more than ……………….before the estimated off-block time of a flight.',
+          choices: [
+            '150 hours',
+            '120 hours',
+            '7 days',
+            '6 days'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Chapter 4, page 4.4.2.1.1'
+        },
+        {
+          id: 'q228',
+          q: 'The first ATS unit receiving a flight plan, or change thereto, shall: Check it for compliance with the format and data conventions; Check it for completeness and, to the extent possible, for accuracy; Take action, if necessary, to make it acceptable to the air traffic services; and indicate acceptance of the flight plan or change thereto, to the originator. All of above are correct',
+          choices: [
+            'All of above are correct'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Chapter 4, page 4.4.3'
+        },
+        {
+          id: 'q229',
+          q: 'In field type 18 of an ICAO flight plan, ALTN/ means ______.',
+          choices: [
+            'Name of departure alternate aerodrome(s)',
+            'Name of destination alternate aerodrome(s)',
+            'Name of alternate aerodrome(s)',
+            'Name of en-route alternate aerodrome(s)'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-15'
+        },
+        {
+          id: 'q230',
+          q: 'In field type 18 of an ICAO flight plan, TALT/ means ______.',
+          choices: [
+            'Name of departure aerodrome(s)',
+            'Name of take-off alternate aerodrome',
+            'Name of en-route alternate aerodrome(s)',
+            'Name of destination alternate aerodrome(s)'
+          ],
+          answer: 1,
+          explanation: 'Doc 4444, Appendix 2, A2-15'
+        },
+        {
+          id: 'q231',
+          q: 'According to Regulation No 1485/QĐ-CHK, A Proposal Flight Plan for a domestic flight shall be sent to the ARO via AFTN/AMHS/AIS/AIM or email at least ________ before ETD.',
+          choices: [
+            '3 hours 30 minutes',
+            '2 hours 30 minutes',
+            '2 hours',
+            '60 minutes'
+          ],
+          answer: 1,
+          explanation: 'Quyết định số 1485/QĐ-CHK'
+        },
+        {
+          id: 'q232',
+          q: 'According to Regulation No 1485/QĐ-CHK, A Proposal Flight Plan for an intenational flight shall be sent to the ARO via AFTN/AMHS/AIS/AIM or email at least ________ before ETD.',
+          choices: [
+            '3 hours 30 minutes',
+            '2 hours 30 minutes',
+            '2 hours',
+            '3 hours'
+          ],
+          answer: 3,
+          explanation: 'Quyết định số 1485/QĐ-CHK'
+        },
+        {
+          id: 'q233',
+          q: 'In item 10, Capabilities comprise the following elements: Presence of relevant serviceable equipment on board the aircraft; Equipment and capabilities commensurate with flight crew qualifications; and where applicable, authorization from the appropriate authority.',
+          choices: [
+            'Presence of relevant serviceable equipment on board the aircraft; Equipment and capabilities commensurate with flight crew qualifications; and where applicable, authorization from the appropriate authority.',
+            'Presence of relevant serviceable equipment on board the aircraft; equipment and capabilities commensurate with flight crew qualifications; and where applicable, authorization from the appropriate authority.',
+            'Applicable, authorization from the appropriate authority.'
+          ],
+          answer: 0,
+          explanation: 'Doc 4444, Appendix 2, A2-5'
+        },
+        {
+          id: 'q234',
+          q: 'For flights expected to be subjected to multi-nodal ATFM measure, the flight plan shall be submitted by the pilot, an operator or a designated representative, at least ________ prior to the Estimated Off-Block Time (EOBT).',
+          choices: [
+            '1. one hour',
+            '2. two hours',
+            '3. three hours',
+            '3. four hours'
+          ],
+          answer: 1,
+          explanation: 'ENR 1.10-1 31 OCT 2024 (AIP Viet Nam)'
+        }
+      ]
+    };
+
+    // --- UI references ---
+    const domainSelect = document.getElementById('domainSelect');
+    const loadBtn = document.getElementById('loadBtn');
+    const questionsEl = document.getElementById('questions');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const resultArea = document.getElementById('resultArea');
+    const questionCount = document.getElementById('questionCount');
+
+    let currentMode = 'practice'; // practice | test
+    let activeQuestions = [];
+    let userAnswers = {}; // id -> index
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        el.classList.add('active');
+        currentMode = el.dataset.tab;
+        renderQuestions();
+      });
+    });
+
+    // Load questions
+    loadBtn.addEventListener('click', ()=>{
+      const val = domainSelect.value;
+      if(!val){
+        alert('Vui lòng chọn lĩnh vực chuyên môn.');
+        return;
+      }
+      const qList = BANK[val] || [];
+      activeQuestions = JSON.parse(JSON.stringify(qList)); // deep copy
+      userAnswers = {};
+      renderQuestions();
+      resultArea.style.display = 'none';
+      updateMeta();
+    });
+
+    // Shuffle
+    shuffleBtn.addEventListener('click', ()=>{
+      if(activeQuestions.length === 0){ alert('Chưa có câu hỏi để trộn'); return; }
+      for (let i = activeQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [activeQuestions[i], activeQuestions[j]] = [activeQuestions[j], activeQuestions[i]];
+      }
+      renderQuestions();
+    });
+
+    // Reset
+    resetBtn.addEventListener('click', ()=>{
+      if(!confirm('Đặt lại câu trả lời?')) return;
+      userAnswers = {};
+      renderQuestions();
+      resultArea.style.display = 'none';
+    });
+
+    // Submit
+    submitBtn.addEventListener('click', ()=>{
+      if(activeQuestions.length === 0){ alert('Không có câu hỏi để nộp'); return; }
+      computeAndShowResult();
+    });
+
+    function renderQuestions(){
+      questionsEl.innerHTML = '';
+      if(activeQuestions.length === 0){
+        questionsEl.innerHTML = '<p style="color:var(--muted);margin:0">Chưa có câu hỏi. Chọn lĩnh vực và bấm <strong>Load câu hỏi</strong>.</p>';
+        updateMeta();
+        return;
+      }
+
+      activeQuestions.forEach((qObj, idx) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'q';
+        qDiv.id = 'q_'+qObj.id;
+
+        const h = document.createElement('h4');
+        h.innerHTML = `Question ${idx+1}: ${escapeHtml(qObj.q)}`;
+        qDiv.appendChild(h);
+
+        const opts = document.createElement('div');
+        opts.className = 'options';
+        qObj.choices.forEach((choiceText, cIdx)=>{
+          const id = `opt_${qObj.id}_${cIdx}`;
+          const label = document.createElement('label');
+          label.className = 'option';
+          label.htmlFor = id;
+
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `ans_${qObj.id}`;
+          radio.id = id;
+          radio.value = cIdx;
+          radio.setAttribute('aria-label', choiceText);
+
+          if(userAnswers[qObj.id] !== undefined && Number(userAnswers[qObj.id]) === cIdx){
+            radio.checked = true;
+          }
+
+          radio.addEventListener('change', ()=>{
+            userAnswers[qObj.id] = Number(radio.value);
+            if(currentMode === 'practice'){
+              highlightAnswers();
+            }
+          });
+
+          const span = document.createElement('span');
+          span.textContent = choiceText;
+
+          label.appendChild(radio);
+          label.appendChild(span);
+          opts.appendChild(label);
+        });
+
+        qDiv.appendChild(opts);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const explainSpan = document.createElement('div');
+        explainSpan.style.flex = '1';
+        explainSpan.style.fontSize = '13px';
+        explainSpan.style.color = 'var(--muted)';
+        explainSpan.id = `explain_${qObj.id}`;
+        explainSpan.textContent = currentMode === 'practice' ? (qObj.explanation || '') : '';
+        meta.appendChild(explainSpan);
+
+        const answerNote = document.createElement('div');
+        answerNote.style.minWidth = '120px';
+        meta.appendChild(answerNote);
+
+        qDiv.appendChild(meta);
+
+        questionsEl.appendChild(qDiv);
+      });
+
+      highlightAnswers();
+      updateMeta();
+      questionsEl.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function highlightAnswers(){
+      activeQuestions.forEach((qObj)=>{
+        const qDiv = document.getElementById('q_'+qObj.id);
+        if (!qDiv) return;
+        const labels = qDiv.querySelectorAll('label.option');
+        labels.forEach((lab, i)=>{
+          lab.classList.remove('correct','wrong');
+          if(currentMode === 'practice'){
+            if(i === qObj.answer) lab.classList.add('correct');
+            if(userAnswers[qObj.id] !== undefined && userAnswers[qObj.id] === i && i !== qObj.answer){
+              lab.classList.add('wrong');
+            }
+            document.getElementById(`explain_${qObj.id}`).textContent = qObj.explanation || '';
+          } else {
+            document.getElementById(`explain_${qObj.id}`).textContent = '';
+          }
+        });
+      });
+    }
+
+    function computeAndShowResult(){
+      let correct = 0;
+      const total = activeQuestions.length;
+      activeQuestions.forEach(q=>{
+        const ua = userAnswers[q.id];
+        if(ua !== undefined && ua === q.answer) correct++;
+      });
+
+      resultArea.style.display = 'block';
+      resultArea.innerHTML = '';
+      const rBox = document.createElement('div');
+      rBox.className = 'result';
+
+      const left = document.createElement('div');
+      left.innerHTML = `<div class="score">${correct} / ${total}</div>
+                        <div style="color:var(--muted);font-size:13px">Điểm: ${Math.round((correct/total)*100)}%</div>`;
+      rBox.appendChild(left);
+
+      const right = document.createElement('div');
+      const btnReview = document.createElement('button');
+      btnReview.className = 'btn ghost';
+      btnReview.textContent = 'Xem đáp án';
+      btnReview.addEventListener('click', ()=>{
+        activeQuestions.forEach((qObj)=>{
+          const qDiv = document.getElementById('q_'+qObj.id);
+          const labels = qDiv.querySelectorAll('label.option');
+          labels.forEach((lab,i)=>{
+            lab.classList.remove('correct','wrong');
+            if(i === qObj.answer) lab.classList.add('correct');
+            if(userAnswers[qObj.id] !== undefined && userAnswers[q.id] === i && i !== qObj.answer){
+              lab.classList.add('wrong');
+            }
+          });
+          document.getElementById(`explain_${qObj.id}`).textContent = qObj.explanation || '';
+        });
+        questionsEl.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      right.appendChild(btnReview);
+
+      const btnRetry = document.createElement('button');
+      btnRetry.className = 'btn';
+      btnRetry.textContent = 'Làm lại';
+      btnRetry.addEventListener('click', ()=>{
+        userAnswers = {};
+        renderQuestions();
+        resultArea.style.display = 'none';
+      });
+      right.appendChild(btnRetry);
+
+      rBox.appendChild(right);
+      resultArea.appendChild(rBox);
+    }
+
+    function updateMeta(){
+      questionCount.textContent = `Câu hỏi: ${activeQuestions.length}`;
+    }
+
+    function escapeHtml(s){
+      if(!s) return '';
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    
+    document.addEventListener('keydown', (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
+        submitBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
