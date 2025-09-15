@@ -9074,42 +9074,44 @@
     const TEST_QUESTION_COUNT = 50;
     const PASSING_SCORE = 42;
 
-    function renderQuestions() {
-      if (activeQuestions.length === 0) {
-        questionsEl.innerHTML = `<p style="color:var(--muted);margin:0">Chưa có câu hỏi. Chọn lĩnh vực và bấm <strong>Load câu hỏi</strong>.</p>`;
-        submitBtn.style.display = 'none';
-        resetBtn.style.display = 'none';
-        return;
+function renderQuestions() {
+  if (activeQuestions.length === 0) {
+    questionsEl.innerHTML = `<p style="color:var(--muted);margin:0">Chưa có câu hỏi. Chọn lĩnh vực và bấm <strong>Load câu hỏi</strong>.</p>`;
+    submitBtn.style.display = 'none';
+    resetBtn.style.display = 'none';
+    return;
+  }
+  questionsEl.innerHTML = '';
+  activeQuestions.forEach((qObj, index) => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.id = `q_${qObj.id}`;
+    qDiv.innerHTML = `
+      <h4>Câu ${index + 1}: ${escapeHtml(qObj.q)}</h4>
+      <div class="options" role="radiogroup">
+        ${qObj.choices.map((choice, i) => `
+          <label class="option">
+            <input type="radio" name="${qObj.id}" value="${i}" ${userAnswers[qObj.id] === i ? 'checked' : ''}>
+            <span>${escapeHtml(choice)}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="explanation" id="explain_${qObj.id}"></div>
+    `;
+    qDiv.addEventListener('change', (e) => {
+      if (e.target.type === 'radio') {
+        userAnswers[qObj.id] = parseInt(e.target.value);
+        // In practice mode, show result immediately
+        if (activeTab === 'practice') {
+          submitTest();
+        }
       }
-      questionsEl.innerHTML = '';
-      activeQuestions.forEach((qObj, index) => {
-        const qDiv = document.createElement('div');
-        qDiv.className = 'q';
-        qDiv.id = `q_${qObj.id}`;
-        qDiv.innerHTML = `
-          <h4>Câu ${index + 1}: ${escapeHtml(qObj.q)}</h4>
-          <div class="options" role="radiogroup">
-            ${qObj.choices.map((choice, i) => `
-              <input type="radio" id="${qObj.id}_${i}" name="${qObj.id}" value="${i}" ${userAnswers[qObj.id] === i ? 'checked' : ''}>
-              <label for="${qObj.id}_${i}" class="option">${escapeHtml(choice)}</label>
-            `).join('')}
-          </div>
-          <div class="explanation" id="explain_${qObj.id}"></div>
-        `;
-        qDiv.addEventListener('change', (e) => {
-          if (e.target.type === 'radio') {
-            userAnswers[qObj.id] = parseInt(e.target.value);
-            // In practice mode, show result immediately
-            if (activeTab === 'practice') {
-              submitTest();
-            }
-          }
-        });
-        questionsEl.appendChild(qDiv);
-      });
-      submitBtn.style.display = 'block';
-      resetBtn.style.display = 'block';
-    }
+    });
+    questionsEl.appendChild(qDiv);
+  });
+  submitBtn.style.display = 'block';
+  resetBtn.style.display = 'block';
+}
 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -9274,3 +9276,4 @@
   </script>
 </body>
 </html>
+
