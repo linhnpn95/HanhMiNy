@@ -11385,7 +11385,7 @@
                         userAnswers[qObj.id] = e.target.value;
                     });
                 } else {
-                    qDiv.addEventListener('change', (e) => {
+qDiv.addEventListener('change', (e) => {
     if (e.target.type === 'radio') {
         userAnswers[qObj.id] = parseInt(e.target.value);
         // ❌ Không gọi submitTest() ở chế độ practice nữa
@@ -11476,7 +11476,7 @@ function loadQuestions() {
                     } else if (userAnswer !== undefined) {
                         const wrongLabel = options[userAnswer];
                         wrongLabel.classList.add('wrong');
-						qDiv.classList.add('wrong-question');
+						qDiv.querySelector('h4').style.color = 'var(--danger)';
                     }
                     
                     if(qObj.explanation){
@@ -11583,5 +11583,3 @@ function loadQuestions() {
     </script>
 </body>
 </html>
-
-
