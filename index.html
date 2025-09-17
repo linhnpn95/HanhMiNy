@@ -11386,14 +11386,11 @@
                     });
                 } else {
                     qDiv.addEventListener('change', (e) => {
-                        if (e.target.type === 'radio') {
-                            userAnswers[qObj.id] = parseInt(e.target.value);
-                            const activeTab = document.querySelector('.tab.active').dataset.tab;
-                            if (activeTab === 'practice') {
-                                submitTest();
-                            }
-                        }
-                    });
+    if (e.target.type === 'radio') {
+        userAnswers[qObj.id] = parseInt(e.target.value);
+        // ❌ Không gọi submitTest() ở chế độ practice nữa
+    }
+});
                 }
 
                 questionsEl.appendChild(qDiv);
@@ -11586,4 +11583,5 @@ function loadQuestions() {
     </script>
 </body>
 </html>
+
 
