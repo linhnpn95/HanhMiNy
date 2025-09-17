@@ -11479,6 +11479,7 @@ function loadQuestions() {
                     } else if (userAnswer !== undefined) {
                         const wrongLabel = options[userAnswer];
                         wrongLabel.classList.add('wrong');
+						qDiv.classList.add('wrong-question');
                     }
                     
                     if(qObj.explanation){
@@ -11585,3 +11586,4 @@ function loadQuestions() {
     </script>
 </body>
 </html>
+
